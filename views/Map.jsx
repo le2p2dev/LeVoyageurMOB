@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import MapView from 'react-native-maps';
-import { Text, View, Alert, TextInput, StyleSheet, Button } from "react-native";
+import { Text, View, Image, StyleSheet, ScrollView, Pressable, TouchableHighlight } from "react-native";
 
 
 
@@ -29,6 +29,15 @@ const Map = () => {
      }
 
   return (<>
+    <View style={styles.topView}>
+        <View style={styles.topNav}>
+            <TouchableHighlight style={styles.highlight}>
+                <Image style={styles.icon} source={require('../assets/burger.png')} />
+            </TouchableHighlight>
+            <Text style={styles.title}>Strasbourg March 2022</Text>
+            <Image style={styles.logo} source={require('../assets/icon.png')}/>
+        </View>
+    </View>
 
     <MapView style={styles.map} region={state.region}
         onPress={(e) => setState({ markers: [...state.markers, { latlng: e.nativeEvent.coordinate }] })}>
@@ -40,7 +49,7 @@ const Map = () => {
                     coordinate={marker.latlng}
                     
                 >
-                    {i < 9 &&
+                    {i < 1 &&
                         <View style={[styles.pinCircle, touched == i ? styles.pinCircleChosen : styles.pinCircle]}>
                         <Text style={styles.pinText}>{i ? i : "D"}</Text>
                         </View>
@@ -51,18 +60,68 @@ const Map = () => {
 
     </MapView>
     <View style={styles.bottomView}>
-        <Text style={styles.title}>{marker.title ? marker.title : "Cliquez sur un point"}</Text>
-        <Text style={styles.text}>Etape {marker.pinNumber ? marker.pinNumber : "de départ"}</Text>
-        <Text style={styles.text}>{marker.desc}</Text>
+        <ScrollView>
+            <Pressable style={styles.markerSlot}>
+                <Text style={styles.pinNumber}>{marker.pinNumber ? marker.pinNumber : "D"}</Text>
+                <Text style={styles.text}>Première étape</Text>
+            </Pressable>
+            <Pressable style={styles.markerSlot}>
+                <Text style={styles.pinNumber}>{marker.pinNumber ? marker.pinNumber : "D"}</Text>
+                <Text style={styles.text}>Première étape</Text>
+            </Pressable>
+            <Pressable style={styles.markerSlot}>
+                <Text style={styles.pinNumber}>{marker.pinNumber ? marker.pinNumber : "D"}</Text>
+                <Text style={styles.text}>Première étape</Text>
+            </Pressable>
+            <Pressable style={styles.markerSlot}>
+                <Text style={styles.pinNumber}>{marker.pinNumber ? marker.pinNumber : "D"}</Text>
+                <Text style={styles.text}>Première étape</Text>
+            </Pressable>
+            <Pressable style={styles.markerSlot}>
+                <Text style={styles.pinNumber}>{marker.pinNumber ? marker.pinNumber : "D"}</Text>
+                <Text style={styles.text}>Première étape</Text>
+            </Pressable>
+            <Pressable style={styles.markerSlot}>
+                <Text style={styles.pinNumber}>{marker.pinNumber ? marker.pinNumber : "D"}</Text>
+                <Text style={styles.text}>Première étape</Text>
+            </Pressable>
+            <Pressable style={styles.markerSlot}>
+                <Text style={styles.pinNumber}>{marker.pinNumber ? marker.pinNumber : "D"}</Text>
+                <Text style={styles.text}>Première étape</Text>
+            </Pressable>
+        </ScrollView>
+        <View style={styles.bottomNav}>
+            <TouchableHighlight style={styles.highlight}>
+                <Image style={styles.icon} source={require('../assets/left.png')} />
+            </TouchableHighlight>
+            <Text style={styles.text}>{marker.title}</Text>
+            <TouchableHighlight style={styles.highlight}>
+                <Image style={styles.icon} source={require('../assets/right.png')} />
+            </TouchableHighlight>
+        </View>
+        
+
     </View>
     
     </>);
   
 };
 
-
-
 const styles = StyleSheet.create({
+    topNav: {
+        flexDirection: "row",
+        borderBottomWidth: 2,
+        borderColor: '#9EADBA',
+        justifyContent: "space-between"
+    },
+    markerSlot: {
+        backgroundColor: '#DFE6ED',
+        borderBottomWidth: 2,
+        borderColor: '#9EADBA', flexDirection: "row", 
+    },
+    pinNumber: {
+        textAlign: "center", color: "#293845", fontSize: 44, fontWeight: "bold", width: "15%"
+    },
     pinCircle: {
         width: 25,
         height: 25,
@@ -87,31 +146,37 @@ const styles = StyleSheet.create({
     },
     map: {
         width: "100%",
-        marginTop: "12%",
         height: "60%",
       },
     title: {
-        fontWeight: "bold",
-        fontSize: 16, textAlign: "center", marginBottom: "2%",
+        marginLeft: "1%", color: "#293845", textAlignVertical: "center", fontSize: 20, marginBottom: "1%"
     },
     text: {
-        marginBottom: "1%",
+        marginLeft: "1%", color: "#293845", textAlignVertical: "center", fontSize: 26
     },
     bottomView: {
-        padding: "3%",
         marginTop: "0%",
-        height: "40%",
-        backgroundColor: "#FFF"
+        height: "28%",
+        borderTopWidth: 2,
+        borderColor: '#9EADBA',
     },
-    FlexRow: {
-        flex: 1,
-        flexDirection: "row",
+    bottomNav: {
+        flexDirection: "row", justifyContent: "space-between"
+    },
+    topView: {
+        marginTop: "10%"
     },
     input: {
         height: 40, width: 120, borderWidth: 1, borderRadius: 4, borderColor: "lightgray", marginRight: 10, paddingHorizontal: 6,
       },
-    btn: {
-        padding: 10
+    highlight: {
+        borderWidth: 2, borderColor: "#838383", height: 54, width: 54, borderRadius: 54, margin: "1.5%"
+    },
+    icon: {
+        height: 50, width: 50
+    },
+    logo: {
+        height: 66, width: 66, alignSelf: "flex-start"
     }
 });
 

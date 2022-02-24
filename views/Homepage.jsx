@@ -1,13 +1,17 @@
 import React, {useState} from "react";
 import { Text, View, Image, Pressable, StyleSheet, ScrollView } from "react-native";
+import Map from "./Map";
 
 const HomePage = () => {
+    const [map, setMap] = useState(null);
 
     const travelChosen = (test) => { // When a 
         console.log("Pressed");
+        setMap(true);
     }
 
-  return (<>
+  if(map == null) {
+      return (<>
     <View style={styles.fullView}>
         <View style={styles.rowView}>
             <Text style={styles.title}>Your travels</Text>
@@ -17,7 +21,7 @@ const HomePage = () => {
         <View style={styles.scrollview}>
             <ScrollView>
                 <Pressable style={styles.travel} onPress={travelChosen}>
-                    <Text style={styles.h2}>Germany february 2022</Text>
+                    <Text style={styles.h2}>Strasbourg march 2022</Text>
                     <Image style={styles.banner} source={require('../assets/landscape.jpg')}/>
                 </Pressable>
             </ScrollView>
@@ -27,6 +31,12 @@ const HomePage = () => {
         </View>
     </View>
     </>);
+  }
+  else {
+      return(<>
+        <Map/>
+      </>)
+  }
   
 };
 
