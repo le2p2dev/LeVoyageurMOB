@@ -6,15 +6,15 @@ import { useQuery } from 'react-query';
 
 const HomePage = () => {
 
-    const { isLoading, data:tripList } = useQuery('markers', listAPI.GetTrips)
-    const [map, setMap] = useState(null);
+    const { isLoading, data:tripList } = useQuery('trips', listAPI.GetTrips)
+    const [tripId, setTripId] = useState(null);
 
-    const travelChosen = (test) => { // When a trip is pressed
+    const tripChosen = (id) => { // When a trip is pressed
         console.log("Pressed");
-        setMap(true);
+        setTripId(id);
     }
 
-  if(map == null) {
+  if(tripId == null) {
       return (<>
     <View style={styles.fullView}>
         <View style={styles.rowView}>
@@ -30,7 +30,7 @@ const HomePage = () => {
                 tripList.response.map(
                     (e, i) => {
                         return (
-                            <Pressable style={styles.travel} onPress={travelChosen} key={e.id}>
+                            <Pressable style={styles.travel} onPress={() => tripChosen(e.id)} key={e.id}>
                                 <Text style={styles.h2}>{e.tripName}</Text>
                                 <Text style={styles.h3}>{e.description}</Text>
                                 <Image style={styles.banner} source={require('../assets/landscape.jpg')}/>
@@ -50,7 +50,7 @@ const HomePage = () => {
   }
   else {
       return(<>
-        <Map/>
+        <Map id={tripId}/>
       </>)
   }
   

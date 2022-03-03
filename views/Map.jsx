@@ -6,9 +6,10 @@ import { useQuery} from 'react-query';
 
 
 
-const Map = () => {
+const Map = (id) => {
     
-    const { isLoading, data:markerList } = useQuery('markers', listAPI.GetMarkers)
+    const { isLoading, data:markerList } = useQuery(id + 'markers', () => listAPI.GetMarkersFromTrip(id.id))
+    console.log("CIICICI", markerList)
 
     const [state, setState] = useState({
         region: {
@@ -33,7 +34,7 @@ const Map = () => {
     <MapView style={styles.map} initialRegion={state.region}>
         {
             isLoading ? console.log("[markerList] : Loading...") : (
-                console.log("[markerList] : Loaded", markerList),
+                console.log("[markerList] : Loaded"),
                 markerList.response.map(
                     (e, i) => {
                         return (

@@ -37,9 +37,9 @@ const listAPI = {
 	
 	},
     //Listes des marker
-    GetMarkers: () => {
+    GetMarkersFromTrip: (id) => {
 
-        const urlSuffix = '/marker/all';
+        const urlSuffix = `/marker/findbytrip?id=${id}`;
 
 		return fetch(urlPrefix+urlSuffix, {
             method: "GET",
@@ -65,6 +65,17 @@ const listAPI = {
         .then((res) => res.json())
             
 
+    },
+
+    //Voyage pour un id donné
+    GetTrip: (id) => {
+        const urlSuffix = `/trip/find?id=${id}`;
+
+        return fetch(urlPrefix + urlSuffix, {
+        method: "GET",
+        //headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + data.token },
+        //body: JSON.stringify({'search' : data.email})
+        }).then((res) => res.json());
     }
 
 };
