@@ -1,6 +1,6 @@
-import React, {useState} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import MapView, { Marker } from 'react-native-maps';
-import { Text, View, Image, StyleSheet, ScrollView, Pressable, TouchableHighlight } from "react-native";
+import { Text, View, Image, StyleSheet, TouchableHighlight } from "react-native";
 import listAPI from "../components/listApi";
 import { useQuery} from 'react-query';
 
@@ -8,17 +8,8 @@ import { useQuery} from 'react-query';
 
 const Map = (id) => {
     
-    const { isLoading, data:markerList } = useQuery(id + 'markers', () => listAPI.GetMarkersFromTrip(id.id))
-    console.log("CIICICI", markerList)
-
-    const [state, setState] = useState({
-        region: {
-        latitude: 48.573406, 
-        longitude: 7.752111,
-        latitudeDelta: 0.1,
-        longitudeDelta: 0.1
-        }
-    });
+    const { isLoading, data:markerList } = useQuery(id + 'markers', () => listAPI.GetMarkersFromTrip(id.id));
+    const { isLoading:isLoadingTrip, data:trip } = useQuery(id + 'tripDesc', () => listAPI.GetTrip(id.id));
 
   return (<>
     <View style={styles.topView}>
@@ -26,12 +17,16 @@ const Map = (id) => {
             <TouchableHighlight style={styles.highlight}>
                 <Image style={styles.icon} source={require('../assets/burger.png')} />
             </TouchableHighlight>
-            <Text style={styles.title}>Strasbourg March 2022</Text>
+            {
+                isLoadingTrip ? console.log("[Trip] : Loading...") :
+                    <Text style={styles.title}>{trip.response[0].tripName}</Text>
+                    
+            }
             <Image style={styles.logo} source={require('../assets/icon.png')}/>
         </View>
     </View>
 
-    <MapView style={styles.map} initialRegion={state.region}>
+    <MapView style={styles.map}>
         {
             isLoading ? console.log("[markerList] : Loading...") : (
                 console.log("[markerList] : Loaded"),
