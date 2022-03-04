@@ -1,16 +1,20 @@
 import React, {useState} from "react";
 import { Text, View, Image, Pressable, StyleSheet, ScrollView } from "react-native";
 import Map from "./Map";
+import listAPI from "../components/listApi";
+import { useQuery } from 'react-query';
 
 const HomePage = () => {
-    const [map, setMap] = useState(null);
 
-    const travelChosen = (test) => { // When a 
+    const { isLoading, data:tripList } = useQuery('trips', listAPI.GetTrips)
+    const [tripId, setTripId] = useState(null);
+
+    const tripChosen = (id) => { // When a trip is pressed
         console.log("Pressed");
-        setMap(true);
+        setTripId(id);
     }
 
-  if(map == null) {
+  if(tripId == null) {
       return (<>
     <View style={styles.fullView}>
         <View style={styles.rowView}>
@@ -20,10 +24,22 @@ const HomePage = () => {
         </View>
         <View style={styles.scrollview}>
             <ScrollView>
-                <Pressable style={styles.travel} onPress={travelChosen}>
-                    <Text style={styles.h2}>Strasbourg march 2022</Text>
-                    <Image style={styles.banner} source={require('../assets/landscape.jpg')}/>
-                </Pressable>
+            {
+            isLoading ? console.log("[tripList] : Loading...") : (
+                console.log("[tripList] : Loaded"),
+                tripList.response.map(
+                    (e, i) => {
+                        return (
+                            <Pressable style={styles.travel} onPress={() => tripChosen(e.id)} key={e.id}>
+                                <Text style={styles.h2}>{e.tripName}</Text>
+                                <Text style={styles.h3}>{e.description}</Text>
+                                <Image style={styles.banner} source={require('../assets/landscape.jpg')}/>
+                            </Pressable>
+                        )
+                    }
+                )
+            ) 
+        }
             </ScrollView>
         </View>
         <View style={styles.bottomView}>
@@ -34,7 +50,7 @@ const HomePage = () => {
   }
   else {
       return(<>
-        <Map/>
+        <Map id={tripId}/>
       </>)
   }
   
@@ -59,7 +75,10 @@ const styles = StyleSheet.create({
         borderRadius: 10, borderWidth: 0, backgroundColor: "#ECECEC", marginBottom: "3%"
     },
     h2: {
-        fontSize: 20, margin: "1%", textAlign: "center", fontWeight: "bold"
+        fontSize: 20, marginTop: "1%", marginHorizontal: "1%", textAlign: "center", fontWeight: "bold"
+    },
+    h3: {
+        fontSize: 14, marginBottom: "1%", marginHorizontal: "1%", textAlign: "center", fontWeight: "bold"
     },
     rowView: {
         flexDirection: "row", justifyContent: "space-between", marginBottom: "4%"

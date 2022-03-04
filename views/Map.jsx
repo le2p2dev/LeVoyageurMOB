@@ -1,32 +1,15 @@
-import React, {useState} from "react";
-import MapView from 'react-native-maps';
-import { Text, View, Image, StyleSheet, ScrollView, Pressable, TouchableHighlight } from "react-native";
+import React, {useState, useEffect, useRef} from "react";
+import MapView, { Marker } from 'react-native-maps';
+import { Text, View, Image, StyleSheet, TouchableHighlight } from "react-native";
+import listAPI from "../components/listApi";
+import { useQuery} from 'react-query';
 
 
 
-const Map = () => {
-    var [marker = {
-        pinNumber: 0,
-        title: "Cliquez sur un point",
-        desc: "",
-    }, setMarker] = useState("");
-    var [touched, setTouched] = useState(false);
-
-    var [state = {
-        region: {
-        latitude: 48.573406, 
-        longitude: 7.752111,
-        latitudeDelta: 0.1,
-        longitudeDelta: 0.1
-        },
-        markers: []
-    }, setState] = useState();
+const Map = (id) => {
     
-    const onMarkerClick = (i) => {
-        console.log(i);
-        setTouched(i);
-        setMarker({pinNumber: i, title: "Titre de base", desc: "C'est la description de l'endroit"});
-     }
+    const { isLoading, data:markerList } = useQuery(id + 'markers', () => listAPI.GetMarkersFromTrip(id.id));
+    const { isLoading:isLoadingTrip, data:trip } = useQuery(id + 'tripDesc', () => listAPI.GetTrip(id.id));
 
   return (<>
     <View style={styles.topView}>
@@ -34,61 +17,46 @@ const Map = () => {
             <TouchableHighlight style={styles.highlight}>
                 <Image style={styles.icon} source={require('../assets/burger.png')} />
             </TouchableHighlight>
-            <Text style={styles.title}>Strasbourg March 2022</Text>
+            {
+                isLoadingTrip ? console.log("[Trip] : Loading...") :
+                    <Text style={styles.title}>{trip.response[0].tripName}</Text>
+                    
+            }
             <Image style={styles.logo} source={require('../assets/icon.png')}/>
         </View>
     </View>
 
-    <MapView style={styles.map} region={state.region}
-        onPress={(e) => setState({ markers: [...state.markers, { latlng: e.nativeEvent.coordinate }] })}>
+    <MapView style={styles.map}>
         {
-            state.markers.map((marker, i) => (
-                <MapView.Marker
-                    onPress={(e) => {e.stopPropagation(); onMarkerClick(i)}}
-                    key={i}
-                    coordinate={marker.latlng}
-                    
-                >
-                    {i < 1 &&
-                        <View style={[styles.pinCircle, touched == i ? styles.pinCircleChosen : styles.pinCircle]}>
-                        <Text style={styles.pinText}>{i ? i : "D"}</Text>
-                        </View>
+            isLoading ? console.log("[markerList] : Loading...") : (
+                console.log("[markerList] : Loaded"),
+                markerList.response.map(
+                    (e, i) => {
+                        return (
+                        <MapView.Marker
+                            key={i}
+                            coordinate={{latitude: e.latitude, longitude: e.longitude}}
+                        >
+                            {/* {i < 1 &&
+                                <View style={[styles.pinCircle, touched == i ? styles.pinCircleChosen : styles.pinCircle]}>
+                                <Text style={styles.pinText}>{i ? i : "D"}</Text>
+                                </View>
+                            } */}
+                        </MapView.Marker>
+                        )
                     }
-                </MapView.Marker>
-            ))
+                )
+            ) 
         }
 
     </MapView>
     <View style={styles.bottomView}>
-        <ScrollView>
+        {/* <ScrollView>
             <Pressable style={styles.markerSlot}>
                 <Text style={styles.pinNumber}>{marker.pinNumber ? marker.pinNumber : "D"}</Text>
                 <Text style={styles.text}>Première étape</Text>
             </Pressable>
-            <Pressable style={styles.markerSlot}>
-                <Text style={styles.pinNumber}>{marker.pinNumber ? marker.pinNumber : "D"}</Text>
-                <Text style={styles.text}>Première étape</Text>
-            </Pressable>
-            <Pressable style={styles.markerSlot}>
-                <Text style={styles.pinNumber}>{marker.pinNumber ? marker.pinNumber : "D"}</Text>
-                <Text style={styles.text}>Première étape</Text>
-            </Pressable>
-            <Pressable style={styles.markerSlot}>
-                <Text style={styles.pinNumber}>{marker.pinNumber ? marker.pinNumber : "D"}</Text>
-                <Text style={styles.text}>Première étape</Text>
-            </Pressable>
-            <Pressable style={styles.markerSlot}>
-                <Text style={styles.pinNumber}>{marker.pinNumber ? marker.pinNumber : "D"}</Text>
-                <Text style={styles.text}>Première étape</Text>
-            </Pressable>
-            <Pressable style={styles.markerSlot}>
-                <Text style={styles.pinNumber}>{marker.pinNumber ? marker.pinNumber : "D"}</Text>
-                <Text style={styles.text}>Première étape</Text>
-            </Pressable>
-            <Pressable style={styles.markerSlot}>
-                <Text style={styles.pinNumber}>{marker.pinNumber ? marker.pinNumber : "D"}</Text>
-                <Text style={styles.text}>Première étape</Text>
-            </Pressable>
+            
         </ScrollView>
         <View style={styles.bottomNav}>
             <TouchableHighlight style={styles.highlight}>
@@ -98,14 +66,11 @@ const Map = () => {
             <TouchableHighlight style={styles.highlight}>
                 <Image style={styles.icon} source={require('../assets/right.png')} />
             </TouchableHighlight>
-        </View>
-        
+        </View> */}
 
     </View>
     
-    </>);
-  
-};
+    </>)};
 
 const styles = StyleSheet.create({
     topNav: {
