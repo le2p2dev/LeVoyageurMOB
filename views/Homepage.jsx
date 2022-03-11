@@ -4,17 +4,9 @@ import Map from "./Map";
 import listAPI from "../components/listApi";
 import { useQuery } from 'react-query';
 
-const HomePage = () => {
+const HomePage = ({route, navigation}) => {
 
     const { isLoading, data:tripList } = useQuery('trips', listAPI.GetTrips)
-    const [tripId, setTripId] = useState(null);
-
-    const tripChosen = (id) => { // When a trip is pressed
-        console.log("Pressed");
-        setTripId(id);
-    }
-
-  if(tripId == null) {
       return (<>
     <View style={styles.fullView}>
         <View style={styles.rowView}>
@@ -30,7 +22,7 @@ const HomePage = () => {
                 tripList.response.map(
                     (e, i) => {
                         return (
-                            <Pressable style={styles.travel} onPress={() => tripChosen(e.id)} key={e.id}>
+                            <Pressable style={styles.travel} onPress={() => navigation.navigate('Map', {id: e.id})} key={e.id}>
                                 <Text style={styles.h2}>{e.tripName}</Text>
                                 <Text style={styles.h3}>{e.description}</Text>
                                 <Image style={styles.banner} source={require('../assets/landscape.jpg')}/>
@@ -47,12 +39,6 @@ const HomePage = () => {
         </View>
     </View>
     </>);
-  }
-  else {
-      return(<>
-        <Map id={tripId}/>
-      </>)
-  }
   
 };
 
