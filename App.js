@@ -1,16 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import { StatusBar } from "expo-status-bar";
-import Homepage from "./views/Homepage";
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as SplashScreen from 'expo-splash-screen';
 import { QueryClientProvider, QueryClient } from 'react-query';
 
+import Homepage from "./views/Homepage";
+import Map from "./views/Map";
+import Settings from './views/Settings';
+
 export default function App() {
 
+  const Stack = createNativeStackNavigator();
   const queryClient = new QueryClient();
 
 
   return (<QueryClientProvider client={queryClient}>
-    <Homepage />
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home" screenOptions={{
+    headerShown: false
+  }}>
+        <Stack.Screen name="Home" component={Homepage} />
+        <Stack.Screen name="Map" component={Map} />
+        <Stack.Screen name="Settings" component={Settings} />
+      </Stack.Navigator>
+    </NavigationContainer>
     <StatusBar style="auto" />
     </QueryClientProvider>
 );

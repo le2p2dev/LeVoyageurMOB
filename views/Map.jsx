@@ -4,10 +4,11 @@ import { Text, View, Image, StyleSheet, TouchableHighlight } from "react-native"
 import listAPI from "../components/listApi";
 import { useQuery} from 'react-query';
 
-const Map = (id) => {
+const Map = ({route, navigation}) => {
+    console.log("ROUTE :", route)
     
-    const { isLoading, data:markerList } = useQuery(id + 'markers', () => listAPI.GetMarkersFromTrip(id.id));
-    const { isLoading:isLoadingTrip, data:trip } = useQuery(id + 'tripDesc', () => listAPI.GetTrip(id.id));
+    const { isLoading, data:markerList } = useQuery(route.id + 'markers', () => listAPI.GetMarkersFromTrip(route.params.id));
+    const { isLoading:isLoadingTrip, data:trip } = useQuery(route.id + 'tripDesc', () => listAPI.GetTrip(route.params.id));
 
   return (<>
     <View style={styles.topView}>
