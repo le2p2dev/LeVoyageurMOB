@@ -1,9 +1,6 @@
 const urlPrefix = 'http://mc.outronic.fr:3630/api';
 
-
-
 const listAPI = {
-
     
     //Listes des voyages pour un utilisateurs
     GetTrips : () =>{
