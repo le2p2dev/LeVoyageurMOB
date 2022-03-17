@@ -2,19 +2,20 @@ import React, {useState, useEffect, useRef} from "react";
 import MapView, { Marker } from 'react-native-maps';
 import { Text, View, Image, StyleSheet, TouchableHighlight } from "react-native";
 import listAPI from "../components/listApi";
+import BottomView from "../components/BottomView"
 import { useQuery} from 'react-query';
 
 const Map = ({route, navigation}) => {
-    console.log("ROUTE :", route)
     
     const { isLoading, data:markerList } = useQuery(route.id + 'markers', () => listAPI.GetMarkersFromTrip(route.params.id));
     const { isLoading:isLoadingTrip, data:trip } = useQuery(route.id + 'tripDesc', () => listAPI.GetTrip(route.params.id));
+    const [ POIInfos, setPOIInfos ] = useState(null);
 
   return (<>
     <View style={styles.topView}>
         <View style={styles.topNav}>
-            <TouchableHighlight style={styles.highlight}>
-                <Image style={styles.icon} source={require('../assets/burger.png')} />
+            <TouchableHighlight style={styles.highlight} onPress={() => navigation.navigate('Homepage')}>
+                <Image style={styles.icon} source={require('../assets/left.png')} />
             </TouchableHighlight>
             {
                 isLoadingTrip ? console.log("[Trip] : Loading...") :
@@ -25,7 +26,7 @@ const Map = ({route, navigation}) => {
         </View>
     </View>
 
-    <MapView style={styles.map} showsUserLocation={true}>
+    <MapView style={POIInfos ? styles.map50 : styles.map80} showsUserLocation={true}>
         {
             isLoading ? console.log("[markerList] : Loading...") : (
                 console.log("[markerList] : Loaded"),
@@ -34,19 +35,22 @@ const Map = ({route, navigation}) => {
                         return (
                         <MapView.Marker
                             key={i}
-                            coordinate={{latitude: e.latitude, longitude: e.longitude}}>
+                            coordinate={{latitude: e.latitude, longitude: e.longitude}}
+                            onPress={() => setPOIInfos({pinNumber: e.pinNumber, title: e.title})}>
                         </MapView.Marker>
-                        )
+                        ) 
                     }
                 )
             ) 
         }
 
     </MapView>
-    <View style={styles.bottomView}>
-        {/* BOTTOMVIEW */}
-
-    </View>
+    {
+        POIInfos ? <BottomView id={POIInfos}/> : (
+            console.log("[POIInfos] Not chosen")
+        )
+    }
+    
     
     </>)};
 
@@ -69,8 +73,11 @@ const styles = StyleSheet.create({
     pinText: {
         color: 'black', fontWeight: 'bold', textAlign: 'center', fontSize: 15,
     },
-    map: {
-        width: "100%", height: "60%",
+    map50: {
+        width: "100%", height: "50%",
+      },
+    map80: {
+        width: "100%", height: "80%",
       },
     title: {
         marginLeft: "1%", color: "#293845", textAlignVertical: "center", fontSize: 20, marginBottom: "1%"
