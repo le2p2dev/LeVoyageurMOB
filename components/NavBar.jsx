@@ -29,7 +29,6 @@ const NavBar = () => {
         })}
       >
         <Tab.Screen name="Carte" component={Map}/>
-        <Tab.Screen name="Voyage" component={Settings}/>
         <Tab.Screen name="Options" component={Settings}/>
       </Tab.Navigator>
     </NavigationContainer>
