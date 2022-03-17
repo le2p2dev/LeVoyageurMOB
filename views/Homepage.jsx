@@ -1,20 +1,11 @@
 import React, {useState} from "react";
 import { Text, View, Image, Pressable, StyleSheet, ScrollView } from "react-native";
-import Map from "./Map";
 import listAPI from "../components/listApi";
 import { useQuery } from 'react-query';
 
-const HomePage = () => {
+const HomePage = ({route, navigation}) => {
 
     const { isLoading, data:tripList } = useQuery('trips', listAPI.GetTrips)
-    const [tripId, setTripId] = useState(null);
-
-    const tripChosen = (id) => { // When a trip is pressed
-        console.log("Pressed");
-        setTripId(id);
-    }
-
-  if(tripId == null) {
       return (<>
     <View style={styles.fullView}>
         <View style={styles.rowView}>
@@ -30,8 +21,8 @@ const HomePage = () => {
                 tripList.response.map(
                     (e, i) => {
                         return (
-                            <Pressable style={styles.travel} onPress={() => tripChosen(e.id)} key={e.id}>
-                                <Text style={styles.h2}>{e.tripName}</Text>
+                            <Pressable style={styles.travel} onPress={() => navigation.navigate('Map', {id: e.id})} key={e.id}>
+                                <Text style={styles.h2}>{e.title}</Text>
                                 <Text style={styles.h3}>{e.description}</Text>
                                 <Image style={styles.banner} source={require('../assets/landscape.jpg')}/>
                             </Pressable>
@@ -43,16 +34,12 @@ const HomePage = () => {
             </ScrollView>
         </View>
         <View style={styles.bottomView}>
-           <Text style={styles.link}>Disconnect</Text>
+            <Pressable onPress={() => navigation.navigate('Connect')}>
+               <Text style={styles.link}>Disconnect</Text>
+            </Pressable>
         </View>
     </View>
     </>);
-  }
-  else {
-      return(<>
-        <Map id={tripId}/>
-      </>)
-  }
   
 };
 
@@ -72,7 +59,7 @@ const styles = StyleSheet.create({
         fontSize: 30, marginTop: "4%"
     },
     travel: {
-        borderRadius: 10, borderWidth: 0, backgroundColor: "#ECECEC", marginBottom: "3%"
+        borderRadius: 10, borderWidth: 0, backgroundColor: "#E0E0E0", marginBottom: "3%"
     },
     h2: {
         fontSize: 20, marginTop: "1%", marginHorizontal: "1%", textAlign: "center", fontWeight: "bold"
@@ -90,7 +77,7 @@ const styles = StyleSheet.create({
         flexDirection: "row", justifyContent: "flex-end", marginTop: "4%"
     },
     link: {
-        color: "#240B36", textDecorationLine: "underline", fontSize: 16
+        color: "#240B36", textDecorationLine: "underline", fontSize: 20
     }
 });
 

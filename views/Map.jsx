@@ -2,20 +2,20 @@ import React, {useState, useEffect, useRef} from "react";
 import MapView, { Marker } from 'react-native-maps';
 import { Text, View, Image, StyleSheet, TouchableHighlight } from "react-native";
 import listAPI from "../components/listApi";
+import BottomView from "../components/BottomView"
 import { useQuery} from 'react-query';
 
-
-
-const Map = (id) => {
+const Map = ({route, navigation}) => {
     
-    const { isLoading, data:markerList } = useQuery(id + 'markers', () => listAPI.GetMarkersFromTrip(id.id));
-    const { isLoading:isLoadingTrip, data:trip } = useQuery(id + 'tripDesc', () => listAPI.GetTrip(id.id));
+    const { isLoading, data:markerList } = useQuery(route.id + 'markers', () => listAPI.GetMarkersFromTrip(route.params.id));
+    const { isLoading:isLoadingTrip, data:trip } = useQuery(route.id + 'tripDesc', () => listAPI.GetTrip(route.params.id));
+    const [ POIInfos, setPOIInfos ] = useState(null);
 
   return (<>
     <View style={styles.topView}>
         <View style={styles.topNav}>
-            <TouchableHighlight style={styles.highlight}>
-                <Image style={styles.icon} source={require('../assets/burger.png')} />
+            <TouchableHighlight style={styles.highlight} onPress={() => navigation.navigate('Homepage')}>
+                <Image style={styles.icon} source={require('../assets/left.png')} />
             </TouchableHighlight>
             {
                 isLoadingTrip ? console.log("[Trip] : Loading...") :
@@ -26,7 +26,7 @@ const Map = (id) => {
         </View>
     </View>
 
-    <MapView style={styles.map}>
+    <MapView style={POIInfos ? styles.map50 : styles.map80} showsUserLocation={true}>
         {
             isLoading ? console.log("[markerList] : Loading...") : (
                 console.log("[markerList] : Loaded"),
@@ -36,82 +36,48 @@ const Map = (id) => {
                         <MapView.Marker
                             key={i}
                             coordinate={{latitude: e.latitude, longitude: e.longitude}}
-                        >
-                            {/* {i < 1 &&
-                                <View style={[styles.pinCircle, touched == i ? styles.pinCircleChosen : styles.pinCircle]}>
-                                <Text style={styles.pinText}>{i ? i : "D"}</Text>
-                                </View>
-                            } */}
+                            onPress={() => setPOIInfos({pinNumber: e.pinNumber, title: e.title})}>
                         </MapView.Marker>
-                        )
+                        ) 
                     }
                 )
             ) 
         }
 
     </MapView>
-    <View style={styles.bottomView}>
-        {/* <ScrollView>
-            <Pressable style={styles.markerSlot}>
-                <Text style={styles.pinNumber}>{marker.pinNumber ? marker.pinNumber : "D"}</Text>
-                <Text style={styles.text}>Première étape</Text>
-            </Pressable>
-            
-        </ScrollView>
-        <View style={styles.bottomNav}>
-            <TouchableHighlight style={styles.highlight}>
-                <Image style={styles.icon} source={require('../assets/left.png')} />
-            </TouchableHighlight>
-            <Text style={styles.text}>{marker.title}</Text>
-            <TouchableHighlight style={styles.highlight}>
-                <Image style={styles.icon} source={require('../assets/right.png')} />
-            </TouchableHighlight>
-        </View> */}
-
-    </View>
+    {
+        POIInfos ? <BottomView id={POIInfos}/> : (
+            console.log("[POIInfos] Not chosen")
+        )
+    }
+    
     
     </>)};
 
 const styles = StyleSheet.create({
     topNav: {
-        flexDirection: "row",
-        borderBottomWidth: 2,
-        borderColor: '#9EADBA',
-        justifyContent: "space-between"
+        flexDirection: "row", borderBottomWidth: 2, borderColor: '#9EADBA', justifyContent: "space-between"
     },
     markerSlot: {
-        backgroundColor: '#DFE6ED',
-        borderBottomWidth: 2,
-        borderColor: '#9EADBA', flexDirection: "row", 
+        backgroundColor: '#DFE6ED', borderBottomWidth: 2, borderColor: '#9EADBA', flexDirection: "row", 
     },
     pinNumber: {
         textAlign: "center", color: "#293845", fontSize: 44, fontWeight: "bold", width: "15%"
     },
     pinCircle: {
-        width: 25,
-        height: 25,
-        borderRadius: 100,
-        backgroundColor: 'white',
-        borderColor: 'red',
-        borderWidth: 3,
+        width: 25, height: 25, borderRadius: 100, backgroundColor: 'white', borderColor: 'red', borderWidth: 3,
     },
     pinCircleChosen: {
-        width: 25,
-        height: 25,
-        borderRadius: 100,
-        backgroundColor: 'white',
-        borderColor: 'blue',
-        borderWidth: 3,
+        width: 25, height: 25, borderRadius: 100, backgroundColor: 'white', borderColor: 'blue', borderWidth: 3,
     },
     pinText: {
-        color: 'black',
-        fontWeight: 'bold',
-        textAlign: 'center',
-        fontSize: 15,
+        color: 'black', fontWeight: 'bold', textAlign: 'center', fontSize: 15,
     },
-    map: {
-        width: "100%",
-        height: "60%",
+    map50: {
+        width: "100%", height: "50%",
+      },
+    map80: {
+        width: "100%", height: "80%",
       },
     title: {
         marginLeft: "1%", color: "#293845", textAlignVertical: "center", fontSize: 20, marginBottom: "1%"
@@ -120,10 +86,7 @@ const styles = StyleSheet.create({
         marginLeft: "1%", color: "#293845", textAlignVertical: "center", fontSize: 26
     },
     bottomView: {
-        marginTop: "0%",
-        height: "28%",
-        borderTopWidth: 2,
-        borderColor: '#9EADBA',
+        marginTop: "0%", height: "28%", borderTopWidth: 2, borderColor: '#9EADBA',
     },
     bottomNav: {
         flexDirection: "row", justifyContent: "space-between"
