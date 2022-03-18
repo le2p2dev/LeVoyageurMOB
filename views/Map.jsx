@@ -3,11 +3,12 @@ import MapView, { Marker } from 'react-native-maps';
 import { Text, View, Image, StyleSheet, TouchableHighlight } from "react-native";
 import listAPI from "../components/listApi";
 import BottomView from "../components/BottomView"
+import NavBar from "../components/NavBar";
 import { useQuery} from 'react-query';
 
 const Map = ({route, navigation}) => {
     
-    const { isLoading, data:markerList } = useQuery(route.id + 'markers', () => listAPI.GetMarkersFromTrip(route.params.id));
+    const { isLoading, data:markerList } = useQuery(route.id + 'markers', () => listAPI.GetPOIsFromTrip(route.params.id));
     const { isLoading:isLoadingTrip, data:trip } = useQuery(route.id + 'tripDesc', () => listAPI.GetTrip(route.params.id));
     const [ POIInfos, setPOIInfos ] = useState(null);
 
@@ -19,7 +20,7 @@ const Map = ({route, navigation}) => {
             </TouchableHighlight>
             {
                 isLoadingTrip ? console.log("[Trip] : Loading...") :
-                    <Text style={styles.title}>{trip.response[0].tripName}</Text>
+                    <Text style={styles.title}>{trip.response[0].title}</Text>
                     
             }
             <Image style={styles.logo} source={require('../assets/icon.png')}/>
@@ -50,16 +51,16 @@ const Map = ({route, navigation}) => {
             console.log("[POIInfos] Not chosen")
         )
     }
-    
+    <NavBar/>
     
     </>)};
 
 const styles = StyleSheet.create({
     topNav: {
-        flexDirection: "row", borderBottomWidth: 2, borderColor: '#9EADBA', justifyContent: "space-between"
+        flexDirection: "row", borderBottomWidth: 2, borderColor: '#838383', justifyContent: "space-between"
     },
     markerSlot: {
-        backgroundColor: '#DFE6ED', borderBottomWidth: 2, borderColor: '#9EADBA', flexDirection: "row", 
+        backgroundColor: '#DFE6ED', borderBottomWidth: 2, borderColor: '#838383', flexDirection: "row", 
     },
     pinNumber: {
         textAlign: "center", color: "#293845", fontSize: 44, fontWeight: "bold", width: "15%"
@@ -86,7 +87,7 @@ const styles = StyleSheet.create({
         marginLeft: "1%", color: "#293845", textAlignVertical: "center", fontSize: 26
     },
     bottomView: {
-        marginTop: "0%", height: "28%", borderTopWidth: 2, borderColor: '#9EADBA',
+        marginTop: "0%", height: "28%", borderTopWidth: 2, borderColor: '#838383',
     },
     bottomNav: {
         flexDirection: "row", justifyContent: "space-between"

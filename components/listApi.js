@@ -58,7 +58,7 @@ const listAPI = {
   },
   //Listes des marker d'un voyage
   GetPOIsFromTrip: (id) => {
-    const urlSuffix = `poi/trip/?tripId=${id}`;
+    const urlSuffix = `poi/trip/${id}`;
 
     return fetch(urlPrefix + urlSuffix, {
       method: "GET",

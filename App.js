@@ -17,7 +17,7 @@ export default function App() {
 
   return (<QueryClientProvider client={queryClient}>
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home" screenOptions={{
+      <Stack.Navigator initialRouteName="Connect" screenOptions={{
     headerShown: false
   }}>
         <Stack.Screen name="Homepage" component={Homepage} />

@@ -1,20 +1,22 @@
 import React, {useState} from "react";
 import { Text, View, Image, Pressable, StyleSheet, TextInput } from "react-native";
+import NavBar from "../components/NavBar";
 
 const Connect = ({route, navigation}) => {
 
     return (<>
     <View style={styles.fullView}>
-            <Image  style={styles.logo}
-                    source={require('../assets/full.png')}/>
+        <Image  style={styles.logo}
+                source={require('../assets/full.png')}/>
         <View style={styles.connectBg}>
-            <TextInput style={styles.input} placeholder="Username" keyboardType="email-address" />
-            <TextInput style={styles.input} placeholder="Password" contextMenuHidden />
+            <TextInput style={styles.input} placeholder="Username" keyboardType="email-address" selectionColor={'black'} />
+            <TextInput style={styles.input} placeholder="Password" contextMenuHidden secureTextEntry selectionColor={'black'} />
             <Pressable onPress={() => navigation.navigate('Homepage')}>
                 <Text style={styles.link}>Connect</Text>
             </Pressable>
         </View>
     </View>
+    <NavBar/>
     </>);
   
 };
@@ -23,7 +25,7 @@ const Connect = ({route, navigation}) => {
 
 const styles = StyleSheet.create({
     logo: {
-        width: 255, height: 105
+        width: 255, height: 105, marginLeft: "-3%"
     },
     title: {
         fontSize: 30, marginTop: "4%"
@@ -32,7 +34,7 @@ const styles = StyleSheet.create({
         flexDirection: "row", justifyContent: "space-between", marginBottom: "4%"
     },
     fullView: {
-        marginTop: '16%', marginHorizontal: '6%'
+        marginTop: '16%', marginHorizontal: '5%', flexGrow: 1
     },
     connectBg: {
         marginTop: "30%"
