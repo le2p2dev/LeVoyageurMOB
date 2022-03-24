@@ -8,6 +8,9 @@ import Homepage from "./views/Homepage";
 import Map from "./views/Map";
 import Settings from './views/Settings';
 import Connect from './views/Connect';
+import ListView from './views/ListView';
+import Expenses from './views/Expenses';
+import Journal from './views/Journal';
 
 export default function App() {
 
@@ -22,6 +25,9 @@ export default function App() {
   }}>
         <Stack.Screen name="Homepage" component={Homepage} />
         <Stack.Screen name="Map" component={Map} />
+        <Stack.Screen name="ListView" component={ListView} />
+        <Stack.Screen name="Journal" component={Journal} />
+        <Stack.Screen name="Expenses" component={Expenses} />
         <Stack.Screen name="Settings" component={Settings} />
         <Stack.Screen name="Connect" component={Connect} />
       </Stack.Navigator>

@@ -1,12 +1,12 @@
 import React, {useState, useEffect, useRef} from "react";
 import MapView, { Marker } from 'react-native-maps';
-import { Text, View, Image, StyleSheet, TouchableHighlight } from "react-native";
+import { Text, View, Image, StyleSheet, ScrollView } from "react-native";
 import listAPI from "../components/listApi";
 import BottomView from "../components/BottomView"
 import NavBar from "../components/NavBar";
 import { useQuery} from 'react-query';
 
-const Map = ({route, navigation}) => {
+const ListView = ({route, navigation}) => {
     
     const { isLoading, data:markerList } = useQuery(route.id + 'markers', () => listAPI.GetPOIsFromTrip(route.params.id));
     const { isLoading:isLoadingTrip, data:trip } = useQuery(route.id + 'tripDesc', () => listAPI.GetTrip(route.params.id));
@@ -15,38 +15,18 @@ const Map = ({route, navigation}) => {
   return (<>
     <View style={styles.fullView}>
         <View style={styles.topNav}>
-            <TouchableHighlight style={styles.highlight} onPress={() => navigation.navigate('Homepage')}>
-                <Image style={styles.icon} source={require('../assets/left.png')} />
-            </TouchableHighlight>
             {
                 isLoadingTrip ? console.log("[Trip] : Loading...") :
                     <Text style={styles.title}>{trip.response[0].title}</Text>
             }
             <Image style={styles.logo} source={require('../assets/icon.png')}/>
         </View>
-        <MapView onPress={() => setPOIInfos(null)} style={POIInfos ? styles.map50 : styles.map80} showsUserLocation={true} >
-            {
-                isLoading ? console.log("[markerList] : Loading...") : (
-                    markerList.response.map(
-                        (e, i) => {
-                            return (
-                            <MapView.Marker
-                                key={i}
-                                coordinate={{latitude: e.latitude, longitude: e.longitude}}
-                                onPress={() => setPOIInfos({id: e.id, title: e.title})}>
-                            </MapView.Marker>
-                            ) 
-                        }
-                    )
-                ) 
-            }
+        <ScrollView>
 
-        </MapView>
-        {
-            POIInfos ? <BottomView id={POIInfos}/> : console.log()
-        }
+        </ScrollView>
     </View>
-    <NavBar idTrip={route.params.id}/>
+
+    <NavBar/>
     
     </>)};
 
@@ -67,13 +47,13 @@ const styles = StyleSheet.create({
         color: 'black', fontWeight: 'bold', textAlign: 'center', fontSize: 15,
     },
     map50: {
-        width: "100%", height: "60%",
+        width: "100%", height: "50%",
       },
     map80: {
-        width: "100%", height: "90.8%",
+        width: "100%", height: "80%",
       },
     title: {
-        marginLeft: "1%", color: "#293845", textAlignVertical: "center", fontSize: 20, marginBottom: "1%"
+        marginLeft: "5%", color: "#293845", textAlignVertical: "center", fontSize: 25, marginBottom: "1%"
     },
     text: {
         marginLeft: "1%", color: "#293845", textAlignVertical: "center", fontSize: 26
@@ -101,4 +81,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Map;
+export default ListView;

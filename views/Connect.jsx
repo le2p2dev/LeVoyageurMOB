@@ -1,6 +1,5 @@
 import React, {useState} from "react";
 import { Text, View, Image, Pressable, StyleSheet, TextInput } from "react-native";
-import NavBar from "../components/NavBar";
 
 const Connect = ({route, navigation}) => {
 
@@ -16,7 +15,6 @@ const Connect = ({route, navigation}) => {
             </Pressable>
         </View>
     </View>
-    <NavBar/>
     </>);
   
 };
