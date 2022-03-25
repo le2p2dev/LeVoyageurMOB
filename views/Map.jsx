@@ -62,7 +62,7 @@ const Map = ({route, navigation}) => {
                 isLoading ? console.log("[markerList] : Loading...") : (
                     markerList.response.map(
                         (e, i) => {
-                            if(e.StepId == isLoadingSteps ? 0 : steps.response[stepNum].id) {
+                            if(e.StepId == (isLoadingSteps ? 0 : steps.response[stepNum].id) ) {
                             return (
                             <MapView.Marker
                                 key={i}
