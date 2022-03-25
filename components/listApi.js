@@ -1,6 +1,7 @@
 const urlPrefix = "http://54.36.191.192:3630/api/";
 
 const listAPI = {
+
   //Listes des voyages pour un utilisateurs
   GetTrips: () => {
     const urlSuffix = "trip/";
@@ -33,17 +34,15 @@ const listAPI = {
       }),
     }).then((res) => res.json());
   },
-  //Listes des étapes d'un voyage
-  GetStepsFromTrip: (data) => {
-    const urlSuffix = "step/trip/?tripId=${id}";
+ 
+  //Info d'un POI
+  GetPOI: (id) => {
+    const urlSuffix = `poi/${id}`;
 
     return fetch(urlPrefix + urlSuffix, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + data.token,
-      },
-      body: JSON.stringify({ idTrip: data.idTrip }),
+      method: "GET",
+      //headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + data.token },
+      //body: JSON.stringify({"idTrip" : data.idTrip})
     }).then((res) => res.json());
   },
   //Listes des marker
@@ -66,41 +65,42 @@ const listAPI = {
       //body: JSON.stringify({"idTrip" : data.idTrip})
     }).then((res) => res.json());
   },
-  //Listes des POI d'une étape
-  GetStepsFromTrip: (id) => {
-    const urlSuffix = `poi/step/?stepId=${id}`;
-
-    return fetch(urlPrefix + urlSuffix, {
-      method: "GET",
-      //headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + data.token },
-      //body: JSON.stringify({"idTrip" : data.idTrip})
-    }).then((res) => res.json());
-  },
+  
+    //Listes des POI d'une étape
+    GetPOIsFromStep: (id) => {
+      const urlSuffix = `poi/step/${id}`;
+  
+      return fetch(urlPrefix + urlSuffix, {
+        method: "GET",
+        //headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + data.token },
+        //body: JSON.stringify({"idTrip" : data.idTrip})
+      }).then((res) => res.json());
+    },
 
   CreatePOI: (data) => {
-    console.log(data.idTrip)
     const urlSuffix = "poi";
     return fetch(urlPrefix + urlSuffix, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        title: "top", // à changer
+        //title: data.title,
         //description: data.description,
         latitude: data.latitude,
         longitude: data.longitude,
         //poiType: data.poiType,
-        tripId: data.idTrip,
+        tripId: data.tripId,
 
 
       }),
     }).then((res) => res.json());
   },
   UpdatePOI: (data) => {
-    const urlSuffix = "/poi";
+    const urlSuffix = "poi";
     return fetch(urlPrefix + urlSuffix, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
+        id:data.id,
         title: data.title,
         description: data.description,
         latitude: data.latitude,
@@ -112,6 +112,16 @@ const listAPI = {
       }),
     }).then((res) => res.json());
 
+  },
+  //list des steps d'un voyage
+  GetStepsFromTrip: (id) => {
+    const urlSuffix = `step/trip/${id}`;
+
+    return fetch(urlPrefix + urlSuffix, {
+      method: "GET",
+      //headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + data.token },
+      //body: JSON.stringify({"idTrip" : data.idTrip})
+    }).then((res) => res.json());
   },
   Login: (username, password) => {
     const urlSuffix = "login";
@@ -135,6 +145,7 @@ const listAPI = {
       }),
     }).then((res) => res.json());
   },
+
 };
 
 export default listAPI;

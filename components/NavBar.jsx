@@ -2,24 +2,24 @@ import React from "react";
 import { Text, View, Image, Pressable, StyleSheet, TouchableHighlight } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 
-const NavBar = ({route}) => {
-  const navigation = useNavigation(); 
+const NavBar = ({route, idTrip}) => {
+  const navigation = useNavigation();
   return (
     <View style={styles.bottom}>
       <TouchableHighlight style={styles.highlight} 
-      onPress={() => navigation.navigate('Homepage')}
+      onPress={() => navigation.navigate('Map', {id: idTrip})} key={idTrip}
       underlayColor="#CCCCCC">
         <Image style={styles.icon} source={require('../assets/compass.png')} />
       </TouchableHighlight>
-      <TouchableHighlight style={styles.highlight} onPress={() => navigation.navigate('Homepage')}
+      <TouchableHighlight style={styles.highlight} onPress={() => navigation.navigate('ListView')}
       underlayColor="#CCCCCC">
         <Image style={styles.icon} source={require('../assets/list.png')} />
       </TouchableHighlight>
-      <TouchableHighlight style={styles.highlight} onPress={() => navigation.navigate('Homepage')}
+      <TouchableHighlight style={styles.highlight} onPress={() => navigation.navigate('Journal')}
       underlayColor="#CCCCCC">
         <Image style={styles.iconDes} source={require('../assets/book.png')} />
       </TouchableHighlight>
-      <TouchableHighlight style={styles.highlight} onPress={() => navigation.navigate('Homepage')}
+      <TouchableHighlight style={styles.highlight} onPress={() => navigation.navigate('Expenses')}
       underlayColor="#CCCCCC">
         <Image style={styles.iconDes} source={require('../assets/expenses.png')} />
       </TouchableHighlight>

@@ -2,11 +2,12 @@ import React from "react";
 import { Text, View, Image, StyleSheet, TouchableHighlight } from "react-native";
 
 const BottomView = ( POI ) => {
-  console.log("CICIICICI", POI)
+  
   return (
     <View style={styles.bottomView}>
+      <Text>{POI.id.id}</Text>
       <Text>{POI.id.title}</Text>
-      <Text>{POI.id.pinNumber}</Text>
+      <Text>{POI.id.description}</Text>
     </View>
   );
 };
