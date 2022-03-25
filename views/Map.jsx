@@ -44,7 +44,7 @@ const Map = ({route, navigation}) => {
             
             {
                 isLoadingSteps ? console.log("[Steps] : Loading...") :
-                    <Text style={styles.title}>{steps.response[stepNum].title}</Text>
+                    <Text style={styles.title}>{isLoadingSteps ? "Loading" : steps.response[stepNum].title}</Text>
             }
 
             { (stepNum==(isLoadingSteps ? console.log() : steps.response.length - 1)) ? <TouchableHighlight style={styles.highlightDes} onPress={console.log()}>
@@ -62,7 +62,7 @@ const Map = ({route, navigation}) => {
                 isLoading ? console.log("[markerList] : Loading...") : (
                     markerList.response.map(
                         (e, i) => {
-                            if(e.StepId == steps.response[stepNum].id) {
+                            if(e.StepId == isLoadingSteps ? 0 : steps.response[stepNum].id) {
                             return (
                             <MapView.Marker
                                 key={i}
