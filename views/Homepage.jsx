@@ -16,8 +16,7 @@ const HomePage = ({route, navigation}) => {
         <View style={styles.scrollview}>
             <ScrollView>
             {
-            isLoading ? console.log("[tripList] : Loading...") : (
-                console.log("[tripList] : Loaded"),
+            isLoading ? console.log() : (
                 tripList.response.map(
                     (e, i) => {
                         return (

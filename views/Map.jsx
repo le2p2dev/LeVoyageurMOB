@@ -1,22 +1,29 @@
 import React, {useState, useEffect, useRef} from "react";
 import MapView, { Marker } from 'react-native-maps';
-import { Text, View, Image, StyleSheet, TouchableHighlight } from "react-native";
+import { Text, View, Image, StyleSheet, TouchableHighlight, Touchable } from "react-native";
 import listAPI from "../components/listApi";
 import BottomView from "../components/BottomView"
 import NavBar from "../components/NavBar";
-import { useQuery} from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 
 const Map = ({route, navigation}) => {
     
     const { isLoading, data:markerList } = useQuery(route.id + 'markers', () => listAPI.GetPOIsFromTrip(route.params.id));
     const { isLoading:isLoadingTrip, data:trip } = useQuery(route.id + 'tripDesc', () => listAPI.GetTrip(route.params.id));
+    const { isLoading:isLoadingSteps, data:steps } = useQuery(route.id + 'tripSteps', () => listAPI.GetStepsFromTrip(route.params.id));
+    
     const [ POIInfos, setPOIInfos ] = useState(null);
+    const [ stepNum, setStepNum ] = useState(0);
+    console.log(stepNum)
+
 
   return (<>
     <View style={styles.fullView}>
+
+        {/* TOP NAV AND TITLE */}
         <View style={styles.topNav}>
             <TouchableHighlight style={styles.highlight} onPress={() => navigation.navigate('Homepage')}>
-                <Image style={styles.icon} source={require('../assets/left.png')} />
+                <Image style={styles.icon} source={require('../assets/back.png')} />
             </TouchableHighlight>
             {
                 isLoadingTrip ? console.log("[Trip] : Loading...") :
@@ -24,35 +31,67 @@ const Map = ({route, navigation}) => {
             }
             <Image style={styles.logo} source={require('../assets/icon.png')}/>
         </View>
+
+        {/* STEP SELECTOR */}
+        <View style={styles.topNav}>
+            { (stepNum==0) ? <TouchableHighlight style={styles.highlightDes} onPress={console.log()}>
+                <Image style={styles.iconDes} source={require('../assets/left.png')} />
+            </TouchableHighlight> :
+            <TouchableHighlight style={styles.highlight} onPress={() => setStepNum(stepNum - 1)}>
+                <Image style={styles.icon} source={require('../assets/left.png')} />
+            </TouchableHighlight>
+            }
+            
+            {
+                isLoadingSteps ? console.log("[Steps] : Loading...") :
+                    <Text style={styles.title}>{steps.response[stepNum].title}</Text>
+            }
+
+            { (stepNum==(isLoadingSteps ? console.log() : steps.response.length - 1)) ? <TouchableHighlight style={styles.highlightDes} onPress={console.log()}>
+                <Image style={styles.iconDes} source={require('../assets/right.png')} />
+            </TouchableHighlight> :
+            <TouchableHighlight style={styles.highlight} onPress={() => setStepNum(stepNum + 1)}>
+                <Image style={styles.icon} source={require('../assets/right.png')} />
+            </TouchableHighlight>
+            }
+        </View>
+
+        {/* MAP VIEW */}
         <MapView onPress={() => setPOIInfos(null)} style={POIInfos ? styles.map50 : styles.map80} showsUserLocation={true} >
             {
                 isLoading ? console.log("[markerList] : Loading...") : (
                     markerList.response.map(
                         (e, i) => {
+                            if(e.StepId == steps.response[stepNum].id) {
                             return (
                             <MapView.Marker
                                 key={i}
                                 coordinate={{latitude: e.latitude, longitude: e.longitude}}
-                                onPress={() => setPOIInfos({id: e.id, title: e.title})}>
+                                onPress={() => setPOIInfos({id: e.id, title: e.title, description: e.description})}>
                             </MapView.Marker>
                             ) 
+                            }
                         }
                     )
                 ) 
             }
 
         </MapView>
+
+        {/* BOTTOM VIEW */}
         {
             POIInfos ? <BottomView id={POIInfos}/> : console.log()
         }
     </View>
+
+    {/* NAVIGATION */}
     <NavBar idTrip={route.params.id}/>
     
     </>)};
 
 const styles = StyleSheet.create({
     topNav: {
-        flexDirection: "row", borderBottomWidth: 2, borderColor: '#838383', justifyContent: "space-between"
+        flexDirection: "row", borderBottomWidth: 1, borderColor: '#838383', justifyContent: "space-between"
     },
     markerSlot: {
         backgroundColor: '#DFE6ED', borderBottomWidth: 2, borderColor: '#838383', flexDirection: "row", 
@@ -70,7 +109,7 @@ const styles = StyleSheet.create({
         width: "100%", height: "60%",
       },
     map80: {
-        width: "100%", height: "90.8%",
+        width: "100%", height: "82%",
       },
     title: {
         marginLeft: "1%", color: "#293845", textAlignVertical: "center", fontSize: 20, marginBottom: "1%"
@@ -93,8 +132,14 @@ const styles = StyleSheet.create({
     highlight: {
         borderWidth: 2, borderColor: "#838383", height: 54, width: 54, borderRadius: 54, margin: "1.5%"
     },
+    highlightDes: {
+        borderWidth: 2, borderColor: "#CACACA", height: 54, width: 54, borderRadius: 54, margin: "1.5%"
+    },
     icon: {
-        height: 50, width: 50
+        height: 50, width: 50, tintColor: "#444"
+    },
+    iconDes: {
+        height: 50, width: 50, tintColor: "#CACACA"
     },
     logo: {
         height: 66, width: 66, alignSelf: "flex-start"
