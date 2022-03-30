@@ -2,12 +2,12 @@ import React from "react";
 import { Text, View, Image, Pressable, StyleSheet, TouchableHighlight } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 
-const NavBar = ({route, idTrip}) => {
+const NavBar = ({route}) => {
   const navigation = useNavigation();
   return (
     <View style={styles.bottom}>
-      <TouchableHighlight style={styles.highlight} 
-      onPress={() => navigation.navigate('Map', {id: idTrip})} key={idTrip}
+      <TouchableHighlight style={styles.highlight}
+      onPress={() => navigation.navigate('Map')}
       underlayColor="#CCCCCC">
         <Image style={styles.icon} source={require('../assets/compass.png')} />
       </TouchableHighlight>

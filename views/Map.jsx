@@ -85,7 +85,7 @@ const Map = ({route, navigation}) => {
     </View>
 
     {/* NAVIGATION */}
-    <NavBar idTrip={route.params.id}/>
+    <NavBar/>
     
     </>)};
 
