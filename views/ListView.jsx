@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef} from "react";
 import MapView, { Marker } from 'react-native-maps';
-import { Text, View, Image, StyleSheet, ScrollView } from "react-native";
+import { Text, View, Image, StyleSheet, ScrollView, Pressable } from "react-native";
 import listAPI from "../components/listApi";
 import BottomView from "../components/BottomView"
 import NavBar from "../components/NavBar";
@@ -8,9 +8,9 @@ import { useQuery} from 'react-query';
 
 const ListView = ({route, navigation}) => {
     
-    const { isLoading, data:markerList } = useQuery(route.id + 'markers', () => listAPI.GetPOIsFromTrip(route.params.id));
-    const { isLoading:isLoadingTrip, data:trip } = useQuery(route.id + 'tripDesc', () => listAPI.GetTrip(route.params.id));
-    const [ POIInfos, setPOIInfos ] = useState(null);
+    const { isLoading, data:markerList } = useQuery(route.params.id + 'markers', () => listAPI.GetPOIsFromTrip(route.params.id));
+    const { isLoading:isLoadingTrip, data:trip } = useQuery(route.params.id + 'tripDesc', () => listAPI.GetTrip(route.params.id));
+    const { isLoading:isLoadingSteps, data:steps } = useQuery(route.params.id + 'tripSteps', () => listAPI.GetStepsFromTrip(route.params.id));
 
   return (<>
     <View style={styles.fullView}>
@@ -22,56 +22,65 @@ const ListView = ({route, navigation}) => {
             <Image style={styles.logo} source={require('../assets/icon.png')}/>
         </View>
         <ScrollView>
+        {
+        isLoadingSteps ? console.log() : (
+            steps.response.map(
+                (s, i) => {
+                    return (<View style={styles.stepView} key={i}>
+                        <Text style={styles.stepTitle}>{s.title ? s.title : "No title"}</Text>
+                        <Text style={styles.h3}>{s.description ? s.description : "No description"}</Text>
+                        {
+                        isLoading ? console.log() : (
+                            markerList.response.map(
+                                (m, j) => {
+                                    if(m.StepId == (isLoadingSteps ? 0 : s.id) ) {
+                                        return (<View style={styles.POIView} key={j}>
+                                            <Text style={styles.h2}>{m.title ? m.title : "No title"}</Text>
+                                            <Text style={styles.h3}>{m.description ? m.description : "No description"}</Text>
+                                            </View>
+                                        )
+                                    }
+                                }
+                            )
+                        ) 
+                        }
+                    </View>)
+                }
+            )
+        ) 
+        }
 
         </ScrollView>
     </View>
 
-    <NavBar/>
+    <NavBar idTrip={route.params.id} />
     
     </>)};
 
 const styles = StyleSheet.create({
     topNav: {
-        flexDirection: "row", borderBottomWidth: 2, borderColor: '#838383', justifyContent: "space-between"
+        flexDirection: "row", borderBottomWidth: 1, borderColor: '#838383', justifyContent: "space-between"
     },
-    markerSlot: {
-        backgroundColor: '#DFE6ED', borderBottomWidth: 2, borderColor: '#838383', flexDirection: "row", 
+    h2: {
+        fontSize: 22, marginTop: "1%", marginHorizontal: "1%", textAlign: "left"
     },
-    pinCircle: {
-        width: 25, height: 25, borderRadius: 100, backgroundColor: 'white', borderColor: 'red', borderWidth: 3,
+    h3: {
+        fontSize: 14, marginBottom: "1%", marginHorizontal: "1%", textAlign: "left"
     },
-    pinCircleChosen: {
-        width: 25, height: 25, borderRadius: 100, backgroundColor: 'white', borderColor: 'blue', borderWidth: 3,
-    },
-    pinText: {
-        color: 'black', fontWeight: 'bold', textAlign: 'center', fontSize: 15,
-    },
-    map50: {
-        width: "100%", height: "50%",
-      },
-    map80: {
-        width: "100%", height: "80%",
-      },
     title: {
         marginLeft: "5%", color: "#293845", textAlignVertical: "center", fontSize: 25, marginBottom: "1%"
     },
-    text: {
-        marginLeft: "1%", color: "#293845", textAlignVertical: "center", fontSize: 26
-    },
-    bottomView: {
-        marginTop: "0%", height: "28%", borderTopWidth: 2, borderColor: '#838383',
-    },
-    bottomNav: {
-        flexDirection: "row", justifyContent: "space-between"
+    stepTitle: {
+        marginLeft: "1%", color: "#293845", fontSize: 22, fontWeight: "bold"
     },
     fullView: {
         marginTop: "10%", height: "88%"
     },
-    input: {
-        height: 40, width: 120, borderWidth: 1, borderRadius: 4, borderColor: "lightgray", marginRight: 10, paddingHorizontal: 6,
-      },
-    highlight: {
-        borderWidth: 2, borderColor: "#838383", height: 54, width: 54, borderRadius: 54, margin: "1.5%"
+    stepView: {
+        borderBottomColor: "#838383", borderBottomWidth: 1, paddingVertical: "2%"
+    },
+    POIView: {
+        borderTopColor: "#DDD", borderTopWidth: 1, paddingVertical: "2%"
     },
     icon: {
         height: 50, width: 50

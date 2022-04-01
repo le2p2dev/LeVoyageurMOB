@@ -6,12 +6,12 @@ const NavBar = ({route, idTrip}) => {
   const navigation = useNavigation();
   return (
     <View style={styles.bottom}>
-      <TouchableHighlight style={styles.highlight} 
-      onPress={() => navigation.navigate('Map', {id: idTrip})} key={idTrip}
+      <TouchableHighlight style={styles.highlight}
+      onPress={() => navigation.navigate('Map', {id: idTrip})}
       underlayColor="#CCCCCC">
         <Image style={styles.icon} source={require('../assets/compass.png')} />
       </TouchableHighlight>
-      <TouchableHighlight style={styles.highlight} onPress={() => navigation.navigate('ListView')}
+      <TouchableHighlight style={styles.highlight} onPress={() => navigation.navigate('ListView', {id: idTrip})}
       underlayColor="#CCCCCC">
         <Image style={styles.icon} source={require('../assets/list.png')} />
       </TouchableHighlight>
