@@ -8,15 +8,15 @@ import { useQuery, useQueryClient } from 'react-query';
 
 const Map = ({route, navigation}) => {
     
-    const { isLoading, data:markerList } = useQuery(route.id + 'markers', () => listAPI.GetPOIsFromTrip(route.params.id));
-    const { isLoading:isLoadingTrip, data:trip } = useQuery(route.id + 'tripDesc', () => listAPI.GetTrip(route.params.id));
-    const { isLoading:isLoadingSteps, data:steps } = useQuery(route.id + 'tripSteps', () => listAPI.GetStepsFromTrip(route.params.id));
+    const { isLoading, data:markerList } = useQuery(route.params.id + 'markers', () => listAPI.GetPOIsFromTrip(route.params.id));
+    const { isLoading:isLoadingTrip, data:trip } = useQuery(route.params.id + 'tripDesc', () => listAPI.GetTrip(route.params.id));
+    const { isLoading:isLoadingSteps, data:steps } = useQuery(route.params.id + 'tripSteps', () => listAPI.GetStepsFromTrip(route.params.id));
     
     const [ POIInfos, setPOIInfos ] = useState(null);
     const [ stepNum, setStepNum ] = useState(0);
     console.log(stepNum)
 
-
+    if(!isLoadingTrip || !isLoading || !isLoadingSteps) {
   return (<>
     <View style={styles.fullView}>
 
@@ -85,9 +85,12 @@ const Map = ({route, navigation}) => {
     </View>
 
     {/* NAVIGATION */}
-    <NavBar/>
+    <NavBar idTrip={route.params.id} />
     
-    </>)};
+    </>)}
+    else {
+        return(<><Text>Loading...</Text></>)
+    }};
 
 const styles = StyleSheet.create({
     topNav: {

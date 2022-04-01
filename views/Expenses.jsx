@@ -13,7 +13,7 @@ const Expenses = ({route, navigation}) => {
         <ScrollView>
         </ScrollView>
     </View>
-    <NavBar/>
+    <NavBar idTrip={route.params.id} />
     </>)};
 
 const styles = StyleSheet.create({
