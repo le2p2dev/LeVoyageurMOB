@@ -32,7 +32,10 @@ const styles = StyleSheet.create({
       bottom: 0, height: "7.5%", flexDirection: "row", justifyContent: "space-around", borderTopWidth: 1, borderColor: "#3F3F3F"
   },
   highlight: {
-    height: 60, width: 60
+    height: 60, width: "25%", backgroundColor: "#FFF", alignItems: "center"
+  },
+  highlighted: {
+    height: 60, width: "25%", backgroundColor: "#EEE", alignItems: "center"
   },
   icon: {
     height: 50, width: 50, margin: 5, tintColor: "#3F3F3F"
