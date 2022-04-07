@@ -2,9 +2,10 @@ import React, {useState, useEffect, useRef} from "react";
 import MapView, { Marker } from 'react-native-maps';
 import { Text, View, Image, StyleSheet, TouchableHighlight, Touchable } from "react-native";
 import listAPI from "../components/listApi";
-import BottomView from "../components/BottomView"
+import BottomView from "../components/BottomView";
 import NavBar from "../components/NavBar";
 import { useQuery } from 'react-query';
+import * as Location from 'expo-location';
 
 const Map = ({route, navigation}) => {
     
@@ -13,6 +14,14 @@ const Map = ({route, navigation}) => {
     const { isLoading:isLoadingSteps, data:steps } = useQuery(route.params.id + 'tripSteps', () => listAPI.GetStepsFromTrip(route.params.id));
     
     const [ POIInfos, setPOIInfos ] = useState(null);
+    useEffect(() => {
+        (async () => {
+          if (await Location.requestForegroundPermissionsAsync() !== 'granted') {
+            console.log("No user location");
+            return;
+          }
+        })();
+      }, []);
 
     if(!isLoadingTrip || !isLoading || !isLoadingSteps) {
   return (<>
@@ -21,7 +30,7 @@ const Map = ({route, navigation}) => {
         {/* TOP NAV AND TITLE */}
         <View style={styles.topNav}>
             <TouchableHighlight style={styles.highlight} onPress={() => navigation.navigate('Homepage')}>
-                <Image style={styles.icon} source={require('../assets/back.png')} />
+                <Image style={styles.icon} source={require('../assets/back.png')}/>
             </TouchableHighlight>
             <Text style={styles.title}>{isLoadingTrip ? null : trip.response[0].title}</Text>
             <Image style={styles.logo} source={require('../assets/icon.png')}/>
