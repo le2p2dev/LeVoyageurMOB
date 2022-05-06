@@ -1,23 +1,49 @@
+import listAPI from "../components/listApi";
 import React, {useState} from "react";
-import { Text, View, Image, Pressable, StyleSheet, TextInput } from "react-native";
+import { Text, View, Image, Pressable, StyleSheet, TextInput, AsyncStorageStatic } from "react-native";
+import OpenURLButton from "../components/WebButton";
 
 const Connect = ({route, navigation}) => {
 
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
     return (<>
     <View style={styles.fullView}>
         <Image  style={styles.logo}
                 source={require('../assets/full.png')}/>
         <View style={styles.connectBg}>
-            <TextInput style={styles.input} placeholder="Username" keyboardType="email-address" selectionColor={'black'} />
-            <TextInput style={styles.input} placeholder="Password" contextMenuHidden secureTextEntry selectionColor={'black'} />
-            <Pressable onPress={() => navigation.navigate('Homepage')}>
+            <Text style={styles.error}>{error}</Text>
+            <TextInput style={styles.input} placeholder="Username" keyboardType="email-address" selectionColor={'black'} onChange={(e) => {
+              setUsername(e.target.value);
+            }} />
+            <TextInput style={styles.input} placeholder="Password" contextMenuHidden secureTextEntry selectionColor={'black'} onChange={(e) => {
+              setPassword(e.target.value);
+            }} />
+            <Pressable onPress={() => listAPI.Login(username, password)
+              .then((data) => {
+                    if (data.token) { async () => {
+                            try {
+                              await AsyncStorage.setItem("isLogged", "true");
+                              await AsyncStorage.setItem("token", "data.token");
+                            } catch (error) {
+                              // Error saving data
+                            }
+                          };
+                    navigation.navigate('Homepage');
+                    } else {
+                    setError(data.error);
+                    }
+            })}>
                 <Text style={styles.link}>Connect</Text>
             </Pressable>
+            <OpenURLButton url={"http://levoyageur.mathieuv.pro/#/account/create"} title={"Register"}/>
         </View>
     </View>
     </>);
-  
 };
+
+
 
 
 
@@ -39,6 +65,9 @@ const styles = StyleSheet.create({
     },
     link: {
         color: "#81C654", textDecorationLine: "underline", fontSize: 24, textAlign: "right", marginTop: "3%"
+    },
+    error: {
+        color: "#FF4444", fontSize: 18, textAlign: "left", marginBottom: "1%"
     },
     input: {
         padding: "4%", width: "98%", fontSize: 24, borderRadius: 10, borderWidth: 0, backgroundColor: "#E0E0E0", marginBottom: "3%"

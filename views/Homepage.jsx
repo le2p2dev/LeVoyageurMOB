@@ -9,7 +9,7 @@ const HomePage = ({route, navigation}) => {
       return (<>
     <View style={styles.fullView}>
         <View style={styles.rowView}>
-            <Text style={styles.title}>Your travels</Text>
+            <Text style={styles.title}>Your trips</Text>
             <Image  style={styles.logo}
                     source={require('../assets/icon.png')}/>
         </View>

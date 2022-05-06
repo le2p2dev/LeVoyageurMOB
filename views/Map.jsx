@@ -19,8 +19,7 @@ const Map = ({route, navigation}) => {
           if (await Location.requestForegroundPermissionsAsync() !== 'granted') {
             console.log("No user location");
             return;
-          }
-        })();
+          }})();
       }, []);
 
     if(!isLoadingTrip || !isLoading || !isLoadingSteps) {
@@ -37,17 +36,13 @@ const Map = ({route, navigation}) => {
         </View>
 
         {/* MAP VIEW */}
-        <MapView onPress={() => setPOIInfos(null)} style={POIInfos ? styles.map50 : styles.map80} showsUserLocation={true} initialRegion={{
-          latitude: steps == null ? 48.57 : steps.response[0].latitude,
-          longitude: steps == null ? 7.75 : steps.response[0].longitude,
-          latitudeDelta: 0.1,
-          longitudeDelta: 0.1,
-        }}>
+        <MapView onPress={() => setPOIInfos(null)} style={POIInfos ? styles.map50 : styles.map80} showsUserLocation={true}>
             {
                 markerList?.response.map(
                     (e, i) => {
                         return (
                         <MapView.Marker
+                            pinColor={POIInfos?.id == e.id ? "green" : "red"}
                             key={i}
                             coordinate={{latitude: e.latitude, longitude: e.longitude}}
                             onPress={() => setPOIInfos({id: e.id, title: e.title, description: e.description})}>
@@ -59,10 +54,10 @@ const Map = ({route, navigation}) => {
             {
                 steps?.response.map(
                     (s, i) => {
-                        if(!isLoadingSteps) 
+                        if(!isLoadingSteps)
                         return (
                         <MapView.Marker
-                            pinColor={'green'}
+                            pinColor={"green"}
                             key={i}
                             coordinate={{latitude: s.latitude, longitude: s.longitude}}
                             onPress={() => setPOIInfos({id: s.id, title: s.title, description: s.description})}>

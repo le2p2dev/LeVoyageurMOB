@@ -19,6 +19,7 @@
     "expo-location": "~14.0.1",
     "expo-splash-screen": "~0.14.1",
     "expo-status-bar": "~1.2.0",
+    "jwt-decode": "^3.1.2",
     "mapview": "^1.0.0",
     "react": "17.0.1",
     "react-dom": "17.0.1",

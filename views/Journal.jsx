@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from "react";
-import { Text, View, Image, StyleSheet, ScrollView } from "react-native";
+import { Text, View, Image, StyleSheet, ScrollView, Pressable } from "react-native";
 import NavBar from "../components/NavBar";
 
 const Journal = ({route, navigation}) => {
@@ -11,8 +11,14 @@ const Journal = ({route, navigation}) => {
             <Image style={styles.logo} source={require('../assets/icon.png')}/>
         </View>
         <ScrollView>
+            <Pressable style={styles.travel}>
+                <Text></Text>
+                <Text>TESTTZZZZZZZZZZZZZZZZzT</Text>
+            </Pressable>
         </ScrollView>
     </View>
+
+    {/* NAVIGATION */}
     <NavBar idTrip={route.params.id} />
     </>)};
 
@@ -22,6 +28,9 @@ const styles = StyleSheet.create({
     },
     topNav: {
         flexDirection: "row", borderBottomWidth: 2, borderColor: '#838383', justifyContent: "space-between"
+    },
+    travel: {
+        borderRadius: 10, borderWidth: 0, backgroundColor: "#E0E0E0", marginBottom: "3%"
     },
     fullView: {
         marginTop: "10%", height: "88%"

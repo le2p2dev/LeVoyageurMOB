@@ -15,11 +15,11 @@ const NavBar = ({route, idTrip}) => {
       underlayColor="#CCCCCC">
         <Image style={styles.icon} source={require('../assets/list.png')} />
       </TouchableHighlight>
-      <TouchableHighlight style={styles.highlight} onPress={() => navigation.navigate('Journal')}
+      <TouchableHighlight style={styles.highlight} onPress={() => navigation.navigate('Journal', {id: idTrip})}
       underlayColor="#CCCCCC">
-        <Image style={styles.iconDes} source={require('../assets/book.png')} />
+        <Image style={styles.icon} source={require('../assets/book.png')} />
       </TouchableHighlight>
-      <TouchableHighlight style={styles.highlight} onPress={() => navigation.navigate('Expenses')}
+      <TouchableHighlight style={styles.highlight} onPress={() => navigation.navigate('Expenses', {id: idTrip})}
       underlayColor="#CCCCCC">
         <Image style={styles.iconDes} source={require('../assets/expenses.png')} />
       </TouchableHighlight>
