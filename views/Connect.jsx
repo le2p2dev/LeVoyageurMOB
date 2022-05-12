@@ -21,10 +21,7 @@ const Connect = ({route, navigation}) => {
             <TextInput style={styles.input} placeholder="Password" contextMenuHidden secureTextEntry selectionColor={'black'} onChange={(e) => {
               setPassword(e.target.value);
             }} />
-            <Pressable onPress={() => listAPI.Login(username, password).then(()=> AsyncStorage.getItem("token").then(()=> navigation.navigate("Homepage")))
-                                  
-                    
-            }>
+            <Pressable onPress={() => navigation.navigate("Homepage")}>
                 <Text style={styles.link}>Connect</Text>
             </Pressable>
             <OpenURLButton url={"http://levoyageur.mathieuv.pro/#/account/create"} title={"Register"}/>

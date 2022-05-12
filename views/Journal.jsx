@@ -11,10 +11,7 @@ const Journal = ({route, navigation}) => {
             <Image style={styles.logo} source={require('../assets/icon.png')}/>
         </View>
         <ScrollView>
-            <Pressable style={styles.travel}>
-                <Text></Text>
-                <Text>TESTTZZZZZZZZZZZZZZZZzT</Text>
-            </Pressable>
+            <Text style={styles.text}>Fonctionnalité à venir..</Text>
         </ScrollView>
     </View>
 
@@ -43,6 +40,9 @@ const styles = StyleSheet.create({
     },
     logo: {
         height: 66, width: 66, alignSelf: "flex-start"
+    },
+    text: {
+        fontSize: 24, alignSelf: "center", marginTop: 10
     }
 });
 

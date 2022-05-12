@@ -2,15 +2,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import jwtDecode from "jwt-decode";
 
 const urlPrefix = "http://levoyageur.mathieuv.pro:3630/api/";
-var token = "";
-const setToken = async () => {
-  AsyncStorage.getItem("token").then(data => token = data)
-}
+var token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXNzd29yZCI6IiQyYSQxMCQ4WXR2NmRFZGlmQnViSWl6eTAwV1JlTVhDaXRwaE4udVBET0hJcm5CRHFra2ZTczA5clZQZSIsImlkIjo0LCJpYXQiOjE2NTIzNjY2MDEsImV4cCI6MTY1MjQ1MzAwMX0.sHQCdZg6aSEd-CoygBMIPE6boBHfX4z8WCbNBPAuMIE";
 
 const listAPI = {
   //Listes des voyages pour un utilisateurs
   GetTrips: () => {
-    setToken();
+    
     const urlSuffix = `user/${
       jwtDecode(token).id
     }/trip`;
@@ -26,7 +23,7 @@ const listAPI = {
   },
 
   GetTrip: (id) => {
-    setToken();
+    
     const urlSuffix = `user/${
       jwtDecode(token).id
     }/trip/${id}`;
@@ -42,7 +39,7 @@ const listAPI = {
   },
 
   CreateTrip: (data) => {
-    setToken();
+    
     const urlSuffix = `user/${
       jwtDecode(token).id
     }/trip`;
@@ -62,7 +59,7 @@ const listAPI = {
 
   //Listes des marker d'un voyage
   GetPOIsFromTrip: (id) => {
-    setToken();
+    
     const urlSuffix = `user/${
       jwtDecode(token).id
     }/trip/${id}/poi`;
@@ -78,7 +75,7 @@ const listAPI = {
   },
 
   GetPOIsFromDay: (data) => {
-    setToken();
+    
     const urlSuffix = `user/${
       jwtDecode(token).id
     }/trip/${data.tripId}/step/${data.idStep}/day/${data.idDay}`;
@@ -94,7 +91,7 @@ const listAPI = {
   },
 
   CreatePOI: (data) => {
-    setToken();
+    
     const urlSuffix = `user/${
       jwtDecode(token).id
     }/trip/${data.tripId}/poi`;
@@ -112,7 +109,7 @@ const listAPI = {
   },
 
   UpdatePOI: (data) => {
-    setToken();
+    
     const urlSuffix = `user/${
       jwtDecode(token).id
     }/trip/${data.tripId}/poi/${data.id}`;
@@ -135,7 +132,7 @@ const listAPI = {
     }).then((res) => res.json());
   },
   DeletePOI: (data) => {
-    setToken();
+    
     const urlSuffix = `user/${
       jwtDecode(token).id
     }/trip/${data.tripId}/poi/${data.id}`;
@@ -148,7 +145,7 @@ const listAPI = {
     }).then((res) => res.json());
   },
   UpdateStep: (data) => {
-    setToken();
+    
     const urlSuffix = `user/${
       jwtDecode(token).id
     }/trip/${data.tripId}/step/${data.id}`;
@@ -168,7 +165,7 @@ const listAPI = {
     }).then((res) => res.json());
   },
   DeleteStep: (data) => {
-    setToken();
+    
     const urlSuffix = `user/${
       jwtDecode(token).id
     }/trip/${data.tripId}/step/${data.id}`;
@@ -181,7 +178,7 @@ const listAPI = {
     }).then((res) => res.json());
   },
   CreateStep: (data) => {
-    setToken();
+    
     const urlSuffix = `user/${
       jwtDecode(token).id
     }/trip/${data.tripId}/step`;
@@ -200,7 +197,7 @@ const listAPI = {
 
   //list des steps d'un voyage
   GetStepsFromTrip: (id) => {
-    setToken();
+    
     const urlSuffix = `user/${
       jwtDecode(token).id
     }/trip/${id}/step`;
@@ -215,7 +212,7 @@ const listAPI = {
   },
 
   GetDaysfromStep: (data) => {
-    setToken();
+    
     const urlSuffix = `user/${
       jwtDecode(token).id
     }/trip/${data.tripId}/step/${data.idStep}/day`;
