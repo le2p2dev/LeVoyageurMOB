@@ -240,7 +240,8 @@ const listAPI = {
         username: username,
         password: password,
       }),
-    }).then((res) => res.json());
+    }).then((res) => res.json())
+    .then(data=> data.token ? AsyncStorage.setItem("token", data.token) : null)
   },
   Register: (username, password) => {
     const urlSuffix = "signup";
