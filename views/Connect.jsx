@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import listAPI from "../components/listApi";
 import React, {useState} from "react";
 import { Text, View, Image, Pressable, StyleSheet, TextInput, AsyncStorageStatic } from "react-native";
@@ -22,18 +23,13 @@ const Connect = ({route, navigation}) => {
             }} />
             <Pressable onPress={() => listAPI.Login(username, password)
               .then((data) => {
-                    if (data.token) { async () => {
-                            try {
-                              await AsyncStorage.setItem("isLogged", "true");
-                              await AsyncStorage.setItem("token", "data.token");
-                            } catch (error) {
-                              // Error saving data
-                            }
-                          };
+                    if (data.token) { 
+                        AsyncStorage.setItem("token", data.token);
+                    };
+                    
+                    AsyncStorage.getItem("token").then(data => console.log(data))
                     navigation.navigate('Homepage');
-                    } else {
-                    setError(data.error);
-                    }
+                    
             })}>
                 <Text style={styles.link}>Connect</Text>
             </Pressable>
