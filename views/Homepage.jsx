@@ -3,6 +3,11 @@ import { Text, View, Image, Pressable, StyleSheet, ScrollView } from "react-nati
 import listAPI from "../components/listApi";
 import { useQuery } from 'react-query';
 
+const Disconnect = ({route, navigation}) => {
+    navigation.navigate('Connect');
+    
+}
+
 const HomePage = ({route, navigation}) => {
 
     const { isLoading, data:tripList } = useQuery('trips', listAPI.GetTrips)
@@ -17,7 +22,7 @@ const HomePage = ({route, navigation}) => {
             <ScrollView>
             {
             isLoading ? console.log() : (
-                tripList.map(
+                tripList?.map(
                     (e, i) => {
                         return (
                             <Pressable style={styles.travel} onPress={() => navigation.navigate('Map', {id: e.id})} key={e.id}>
@@ -33,7 +38,7 @@ const HomePage = ({route, navigation}) => {
             </ScrollView>
         </View>
         <View style={styles.bottomView}>
-            <Pressable onPress={() => navigation.navigate('Connect')}>
+            <Pressable onPress={() => Disconnect()}>
                <Text style={styles.link}>Disconnect</Text>
             </Pressable>
         </View>
