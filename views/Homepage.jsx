@@ -17,7 +17,7 @@ const HomePage = ({route, navigation}) => {
             <ScrollView>
             {
             isLoading ? console.log() : (
-                tripList.response.map(
+                tripList.map(
                     (e, i) => {
                         return (
                             <Pressable style={styles.travel} onPress={() => navigation.navigate('Map', {id: e.id})} key={e.id}>

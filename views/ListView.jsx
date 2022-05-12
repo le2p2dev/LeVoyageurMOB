@@ -17,21 +17,21 @@ const ListView = ({route, navigation}) => {
         <View style={styles.topNav}>
             {
                 isLoadingTrip ? console.log("[Trip] : Loading...") :
-                    <Text style={styles.title}>{trip.response[0].title}</Text>
+                    <Text style={styles.title}>{trip[0].title}</Text>
             }
             <Image style={styles.logo} source={require('../assets/icon.png')}/>
         </View>
         <ScrollView>
         {
         isLoadingSteps ? console.log() : (
-            steps.response.map(
+            steps.map(
                 (s, i) => {
                     return (<View style={styles.stepView} key={i}>
                         <Text style={styles.stepTitle}>{s.title ? s.title : "No title"}</Text>
                         <Text style={styles.h3}>{s.description ? s.description : "No description"}</Text>
                         {
                         isLoading ? console.log() : (
-                            markerList.response.map(
+                            markerList.map(
                                 (m, j) => {
                                     if(m.StepId == (isLoadingSteps ? 0 : s.id) ) {
                                         return (<View style={styles.POIView} key={j}>

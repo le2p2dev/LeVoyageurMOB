@@ -31,14 +31,14 @@ const Map = ({route, navigation}) => {
             <TouchableHighlight style={styles.highlight} onPress={() => navigation.navigate('Homepage')}>
                 <Image style={styles.icon} source={require('../assets/back.png')}/>
             </TouchableHighlight>
-            <Text style={styles.title}>{isLoadingTrip ? null : trip.response[0].title}</Text>
+            <Text style={styles.title}>{isLoadingTrip ? null : trip.title}</Text>
             <Image style={styles.logo} source={require('../assets/icon.png')}/>
         </View>
 
         {/* MAP VIEW */}
         <MapView onPress={() => setPOIInfos(null)} style={POIInfos ? styles.map50 : styles.map80} showsUserLocation={true}>
             {
-                markerList?.response.map(
+                markerList?.map(
                     (e, i) => {
                         return (
                         <MapView.Marker
@@ -52,7 +52,7 @@ const Map = ({route, navigation}) => {
                 )
             }
             {
-                steps?.response.map(
+                steps?.map(
                     (s, i) => {
                         if(!isLoadingSteps)
                         return (
