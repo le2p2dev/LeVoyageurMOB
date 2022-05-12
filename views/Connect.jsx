@@ -24,11 +24,8 @@ const Connect = ({route, navigation}) => {
             <Pressable onPress={() => listAPI.Login(username, password)
               .then((data) => {
                     if (data.token) { 
-                        AsyncStorage.setItem("token", data.token);
+                        AsyncStorage.setItem("token", data.token).then(navigation.navigate('Homepage'));
                     };
-                    
-                    AsyncStorage.getItem("token").then(data => console.log(data))
-                    navigation.navigate('Homepage');
                     
             })}>
                 <Text style={styles.link}>Connect</Text>
