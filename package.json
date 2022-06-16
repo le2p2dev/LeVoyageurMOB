@@ -40,5 +40,9 @@
   "devDependencies": {
     "@babel/core": "^7.12.9"
   },
-  "private": true
+  "private": true,
+  "android": {
+    "package": "com.yourcompany.yourappname",
+    "versionCode": 1
+}
 }
