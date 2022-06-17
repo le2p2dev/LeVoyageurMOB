@@ -11,7 +11,7 @@ const ListDays = ({ idStep, idTrip }) => {
   if (isLoading) return (<Text>Loading</Text>)
   else {
     return(<View style={styles.days}>
-      {days.data.map((day) => {
+      {days.map((day) => {
         return(
           <View style={styles.dayView}>
             <Text style={styles.text}>

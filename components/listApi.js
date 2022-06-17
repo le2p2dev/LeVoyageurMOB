@@ -90,7 +90,7 @@ return AsyncStorage.getItem("token").then(token =>
   },
 
 
-
+  GetStepsFromTrip: (id) => {
     return AsyncStorage.getItem("token").then(token =>
       fetch(urlPrefix + `user/${
         jwtDecode(token).id
@@ -117,6 +117,18 @@ return AsyncStorage.getItem("token").then(token =>
       }, //body: JSON.stringify({"idTrip" : data.idTrip})
     })).then((res) => res.json());
   },
+  GetRidesFromTrip: (tripId) => {
+		 
+		return AsyncStorage.getItem("token").then(token => fetch(urlPrefix + `user/${
+      jwtDecode(token).id
+      }/trip/${tripId}/ride`, {
+		method: "GET",
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: "Bearer " + token,
+		}, 
+		})).then((res) => res.json());
+	},
 
   Login: (data) => {
     const urlSuffix = "login";

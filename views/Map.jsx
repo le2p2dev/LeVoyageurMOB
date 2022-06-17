@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from "react";
-import MapView, { Marker } from 'react-native-maps';
+import MapView, { Marker, Polyline } from 'react-native-maps';
 import { Text, View, Image, StyleSheet, TouchableHighlight, Touchable } from "react-native";
 import listAPI from "../components/listApi";
 import BottomView from "../components/BottomView";
@@ -12,12 +12,12 @@ const Map = ({route, navigation}) => {
     const { isLoading, data:markerList } = useQuery(route.params.id + 'markers', () => listAPI.GetPOIsFromTrip(route.params.id));
     const { isLoading:isLoadingTrip, data:trip } = useQuery(route.params.id + 'tripDesc', () => listAPI.GetTrip(route.params.id));
     const { isLoading:isLoadingSteps, data:steps } = useQuery(route.params.id + 'tripSteps', () => listAPI.GetStepsFromTrip(route.params.id));
-    
+    const { isLoading:isLoadingRide, data : ride} = useQuery(route.params.id + 'Ride', ()=>listAPI.GetRidesFromTrip(route.params.id));
     const [ POIInfos, setPOIInfos ] = useState(null);
+    
     useEffect(() => {
         (async () => {
           if (await Location.requestForegroundPermissionsAsync() !== 'granted') {
-            console.log("No user location");
             return;
           }})();
       }, []);
@@ -37,6 +37,25 @@ const Map = ({route, navigation}) => {
 
         {/* MAP VIEW */}
         <MapView onPress={() => setPOIInfos(null)} style={POIInfos ? styles.map50 : styles.map80} showsUserLocation={true}>
+       
+
+        {
+            isLoadingRide? null : 
+
+            ride?.map( e => {
+
+                if(e.stepEnd)
+                return <Polyline 
+                 coordinates={[
+                    {latitude: e.stepStart.latitude , longitude: e.stepStart.longitude}, 
+                    {latitude: e.stepEnd.latitude, longitude: e.stepEnd.longitude}
+                 ]}
+                 strokeColor="#000"
+
+                 strokeWidth={6}
+                 />
+            })
+        }
             {
                 markerList?.map(
                     (e, i) => {
@@ -50,6 +69,32 @@ const Map = ({route, navigation}) => {
                         )
                     }
                 )
+            }
+             {
+                /*
+                <Polyline coordinates={[
+                            { latitude: e.stepStart.longitude, longitude: e.stepStart.latitude },
+                            { latitude: e.stepEnd?.longitude, longitude: e.stepEnd?.latitude}]}
+                            
+                            strokeColor="#000" // fallback for when `strokeColors` is not supported by the map-provider
+		
+		                    strokeWidth={6}
+                            />
+                */
+                
+                !isLoadingRide ? 
+                
+
+                
+                    ride?.map(e => {
+                        e.stepEnd ? ( 
+                            console.log({ longitude : e.stepStart.longitude, latitude : e.stepStart.latitude}) ) : null
+                        
+                    })              
+                   
+                : null
+                
+                
             }
             {
                 steps?.map(
@@ -66,6 +111,7 @@ const Map = ({route, navigation}) => {
                     }
                 )
             }
+           
 
         </MapView>
 
