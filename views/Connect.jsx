@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import listAPI from "../components/listApi";
-import React, {useState} from "react";
-import { Text, View, Image, Pressable, StyleSheet, TextInput, AsyncStorageStatic } from "react-native";
+import React, { useEffect, useState} from "react";
+import { Text, View, Image, Pressable, StyleSheet, TextInput } from "react-native";
 import OpenURLButton from "../components/WebButton";
 
 const Connect = ({route, navigation}) => {
@@ -9,19 +9,29 @@ const Connect = ({route, navigation}) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+
+    const handleConnect = () => {
+    listAPI.Login({username,password}).then(data =>  
+    navigation.navigate("Homepage"))
+    
+    }
+
+        
     return (<>
     <View style={styles.fullView}>
         <Image  style={styles.logo}
                 source={require('../assets/full.png')}/>
         <View style={styles.connectBg}>
             <Text style={styles.error}>{error}</Text>
-            <TextInput style={styles.input} placeholder="Username" keyboardType="email-address" selectionColor={'black'} onChange={(e) => {
-              setUsername(e.target.value);
-            }} />
-            <TextInput style={styles.input} placeholder="Password" contextMenuHidden secureTextEntry selectionColor={'black'} onChange={(e) => {
-              setPassword(e.target.value);
-            }} />
-            <Pressable onPress={() => navigation.navigate("Homepage")}>
+
+            <TextInput style={styles.input} placeholder="Username" keyboardType="email-address" selectionColor={'black'} value={username} 
+            onChangeText={
+              setUsername
+            } />
+            <TextInput style={styles.input} placeholder="Password" contextMenuHidden secureTextEntry selectionColor={'black'} onChangeText={setPassword} value={password}
+             />
+            <Pressable onPress={handleConnect}>
+
                 <Text style={styles.link}>Connect</Text>
             </Pressable>
             <OpenURLButton url={"http://levoyageur.mathieuv.pro/#/account/create"} title={"Register"}/>

@@ -5,7 +5,11 @@ import { useQuery } from 'react-query';
 
 const HomePage = ({route, navigation}) => {
 
+  
+
     const { isLoading, data:tripList } = useQuery('trips', listAPI.GetTrips)
+
+    
       return (<>
     <View style={styles.fullView}>
         <View style={styles.rowView}>
@@ -16,9 +20,9 @@ const HomePage = ({route, navigation}) => {
         <View style={styles.scrollview}>
             <ScrollView>
             {
-            isLoading ? console.log() : (
+            isLoading ? <Text>Loading...</Text>: (
                 tripList?.map(
-                    (e, i) => {
+                    (e) => {
                         return (
                             <Pressable style={styles.travel} onPress={() => navigation.navigate('Map', {id: e.id})} key={e.id}>
                                 <Text style={styles.h2}>{e.title}</Text>
