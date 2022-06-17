@@ -23,6 +23,7 @@ const Connect = ({route, navigation}) => {
                 source={require('../assets/full.png')}/>
         <View style={styles.connectBg}>
             <Text style={styles.error}>{error}</Text>
+
             <TextInput style={styles.input} placeholder="Username" keyboardType="email-address" selectionColor={'black'} value={username} 
             onChangeText={
               setUsername
@@ -30,6 +31,7 @@ const Connect = ({route, navigation}) => {
             <TextInput style={styles.input} placeholder="Password" contextMenuHidden secureTextEntry selectionColor={'black'} onChangeText={setPassword} value={password}
              />
             <Pressable onPress={handleConnect}>
+
                 <Text style={styles.link}>Connect</Text>
             </Pressable>
             <OpenURLButton url={"http://levoyageur.mathieuv.pro/#/account/create"} title={"Register"}/>

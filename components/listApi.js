@@ -3,6 +3,7 @@ import jwtDecode from "jwt-decode";
 
 const urlPrefix = "http://levoyageur.mathieuv.pro:3630/api/";
 
+
 const _storeData = async (token) => {
   try {
     await AsyncStorage.setItem(
@@ -15,12 +16,15 @@ const _storeData = async (token) => {
 };
 
 
+
 const listAPI = {
   //Listes des voyages pour un utilisateurs
   GetTrips: () => {
+
    
 return AsyncStorage.getItem("token").then(token => 
    
+
 
      fetch(urlPrefix +  `user/${
       jwtDecode(token).id
@@ -35,7 +39,7 @@ return AsyncStorage.getItem("token").then(token =>
   },
 
   GetTrip: (id) => {
-  
+
 
     return AsyncStorage.getItem("token").then(token => 
      fetch(urlPrefix + `user/${
@@ -49,12 +53,12 @@ return AsyncStorage.getItem("token").then(token =>
     })).then((res) => res.json());
   },
 
- 
 
 
 
   //Listes des marker d'un voyage
   GetPOIsFromTrip: (id) => {
+
 
     return AsyncStorage.getItem("token").then(token => 
        fetch(urlPrefix + `user/${
@@ -70,7 +74,7 @@ return AsyncStorage.getItem("token").then(token =>
   },
 
   GetPOIsFromDay: (data) => {
-  
+
 
     return AsyncStorage.getItem("token").then(token => 
      fetch(urlPrefix + `user/${
@@ -85,13 +89,7 @@ return AsyncStorage.getItem("token").then(token =>
     })).then((res) => res.json());
   },
 
-  
 
-  
-  
-
-  //list des steps d'un voyage
-  GetStepsFromTrip: (id) => {
 
     return AsyncStorage.getItem("token").then(token =>
       fetch(urlPrefix + `user/${
@@ -106,6 +104,7 @@ return AsyncStorage.getItem("token").then(token =>
   },
 
   GetDaysfromStep: (data) => {
+
 
     return AsyncStorage.getItem("token").then(token =>
       fetch(urlPrefix + `user/${
