@@ -14,13 +14,58 @@ const Map = ({route, navigation}) => {
     const { isLoading:isLoadingSteps, data:steps } = useQuery(route.params.id + 'tripSteps', () => listAPI.GetStepsFromTrip(route.params.id));
     const { isLoading:isLoadingRide, data : ride} = useQuery(route.params.id + 'Ride', ()=>listAPI.GetRidesFromTrip(route.params.id));
     const [ POIInfos, setPOIInfos ] = useState(null);
+    const [firstLoad, setFirstLoad] = useState(true)
+    const [region, setRegion] = useState({
+        latitude:0,
+        longitude:0,
+        latitudeDelta:0.5,
+        longitudeDelta:0.5
+    })
+
+    const handleMarkerClick = (e) => {
+        setPOIInfos({id: e.id, title: e.title, description: e.description})
+        setRegion({
+            latitude:e.latitude,
+            longitude:e.longitude,
+            latitudeDelta:0.5,
+            longitudeDelta:0.5})
+
+    }
     
-    useEffect(() => {
+    
+    //test permission for user location
+    useEffect(() => { 
         (async () => {
           if (await Location.requestForegroundPermissionsAsync() !== 'granted') {
             return;
           }})();
       }, []);
+
+      //affiche le point selectionné sur la carte
+      useEffect(()=>{
+        if(route.params?.markerData){
+       setRegion({
+        latitude:route.params.markerData.latitude,
+        longitude:route.params.markerData.longitude,
+        latitudeDelta:0.5,
+        longitudeDelta:0.5})
+       setPOIInfos({id: route.params.markerData.id, title: route.params.markerData.title, description: route.params.markerData.description})
+
+    }
+      },[route.params.markerData])
+
+      // Au lancement zoom sur la première étape
+      if(firstLoad && !isLoadingSteps){
+       
+        setRegion({
+            latitude:steps[0].latitude,
+            longitude:steps[0].longitude,
+            latitudeDelta:0.5,
+            longitudeDelta:0.5})
+        setFirstLoad(false)
+      }
+
+   
 
     if(!isLoadingTrip || !isLoading || !isLoadingSteps) {
   return (<>
@@ -36,7 +81,8 @@ const Map = ({route, navigation}) => {
         </View>
 
         {/* MAP VIEW */}
-        <MapView onPress={() => setPOIInfos(null)} style={POIInfos ? styles.map50 : styles.map80} showsUserLocation={true}>
+        <MapView onPress={() => setPOIInfos(null)} style={POIInfos ? styles.map50 : styles.map80} showsUserLocation={true} 
+        region={region} onRegionChangeComplete={setRegion}>
        
 
         {
@@ -44,8 +90,9 @@ const Map = ({route, navigation}) => {
 
             ride?.map( e => {
 
-                if(e.stepEnd)
+                if(e.stepEnd && e.stepStart)
                 return <Polyline 
+                key={e.id}
                  coordinates={[
                     {latitude: e.stepStart.latitude , longitude: e.stepStart.longitude}, 
                     {latitude: e.stepEnd.latitude, longitude: e.stepEnd.longitude}
@@ -64,48 +111,25 @@ const Map = ({route, navigation}) => {
                             pinColor={POIInfos?.id == e.id ? "green" : "red"}
                             key={i}
                             coordinate={{latitude: e.latitude, longitude: e.longitude}}
-                            onPress={() => setPOIInfos({id: e.id, title: e.title, description: e.description})}>
+                            onPress={()=>handleMarkerClick(e)}>
                         </MapView.Marker>
                         )
                     }
                 )
             }
-             {
-                /*
-                <Polyline coordinates={[
-                            { latitude: e.stepStart.longitude, longitude: e.stepStart.latitude },
-                            { latitude: e.stepEnd?.longitude, longitude: e.stepEnd?.latitude}]}
-                            
-                            strokeColor="#000" // fallback for when `strokeColors` is not supported by the map-provider
-		
-		                    strokeWidth={6}
-                            />
-                */
-                
-                !isLoadingRide ? 
-                
-
-                
-                    ride?.map(e => {
-                        e.stepEnd ? ( 
-                            console.log({ longitude : e.stepStart.longitude, latitude : e.stepStart.latitude}) ) : null
-                        
-                    })              
-                   
-                : null
-                
-                
-            }
+           
             {
                 steps?.map(
                     (s, i) => {
+                        
+
                         if(!isLoadingSteps)
                         return (
                         <MapView.Marker
                             pinColor={"green"}
                             key={i}
                             coordinate={{latitude: s.latitude, longitude: s.longitude}}
-                            onPress={() => setPOIInfos({id: s.id, title: s.title, description: s.description})}>
+                            onPress={()=>handleMarkerClick(s)}>
                         </MapView.Marker>
                         )
                     }
@@ -117,7 +141,7 @@ const Map = ({route, navigation}) => {
 
         {/* BOTTOM VIEW */}
         {
-            POIInfos ? <BottomView id={POIInfos}/> : console.log()
+            POIInfos ? <BottomView id={POIInfos}/> : null
         }
     </View>
 

@@ -3,7 +3,7 @@ import listAPI from "./listApi";
 import { Text, View, Image, StyleSheet, ScrollView, Pressable } from "react-native";
 import ListPois from "./ListPois";
 
-const ListDays = ({ idStep, idTrip }) => {
+const ListDays = ({ idStep, idTrip , navigation}) => {
   const { isLoading, data: days } = useQuery(idStep + "days", () =>
     listAPI.GetDaysfromStep({ idStep: idStep, tripId: idTrip })
   );
@@ -17,7 +17,7 @@ const ListDays = ({ idStep, idTrip }) => {
             <Text style={styles.text}>
               Day {day.number}
             </Text>
-            <ListPois idStep={idStep} idTrip={idTrip} idDay={day.id}></ListPois>
+            <ListPois idStep={idStep} idTrip={idTrip} idDay={day.id} navigation={navigation} ></ListPois>
           </View>
           )
       })}
