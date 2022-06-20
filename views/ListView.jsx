@@ -1,12 +1,12 @@
 import React, {useState, useEffect, useRef} from "react";
 import ListDays from "../components/ListDays";
 import MapView, { Marker } from 'react-native-maps';
-import { Text, View, Image, StyleSheet, ScrollView, Pressable } from "react-native";
+import { Text, View, Image, StyleSheet, ScrollView, Pressable, Button } from "react-native";
 import listAPI from "../components/listApi";
 import BottomView from "../components/BottomView"
 import NavBar from "../components/NavBar";
 import { useQuery} from 'react-query';
-
+import ListFile from "../components/ListFile";
 const ListView = ({route, navigation}) => {
     
     const { isLoading:isLoadingTrip, data:trip } = useQuery(route.params.id + 'tripDesc', () => listAPI.GetTrip(route.params.id));
@@ -30,7 +30,9 @@ const ListView = ({route, navigation}) => {
                     return (<View style={styles.stepView} key={i}>
                         <Text style={styles.stepTitle}>{s.title ? s.title : "No title"}</Text>
                         <Text style={styles.h3}>{s.description ? s.description : "No description"}</Text>
-                        <ListDays idStep={s.id} idTrip={trip.id}></ListDays>
+                        <Button onPress={()=>navigation.navigate("Map",{id : trip.id, markerData : s})} title="go to map"/>
+                        <ListDays idStep={s.id} idTrip={trip.id} navigation={navigation}></ListDays>
+                        <ListFile files={s.Files}/>
                     </View>)
                 }
             )
