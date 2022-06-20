@@ -82,7 +82,7 @@ const Map = ({route, navigation}) => {
 
         {/* MAP VIEW */}
         <MapView onPress={() => setPOIInfos(null)} style={POIInfos ? styles.map50 : styles.map80} showsUserLocation={true} 
-        region={region} onRegionChangeComplete={setRegion}>
+        region={region} onRegionChangeComplete={firstLoad ? setRegion : null}>
        
 
         {
