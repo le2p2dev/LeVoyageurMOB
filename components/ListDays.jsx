@@ -17,7 +17,8 @@ const ListDays = ({ idStep, idTrip , navigation}) => {
             <Text style={styles.text}>
               Day {day.number}
             </Text>
-            <ListPois idStep={idStep} idTrip={idTrip} idDay={day.id} navigation={navigation} ></ListPois>
+            <ListPois idStep={idStep} idTrip={idTrip} idDay={day.id} navigation={navigation} />
+            
           </View>
           )
       })}

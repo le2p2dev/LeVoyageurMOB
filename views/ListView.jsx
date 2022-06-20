@@ -32,6 +32,7 @@ const ListView = ({route, navigation}) => {
                         <Text style={styles.h3}>{s.description ? s.description : "No description"}</Text>
                         <Button onPress={()=>navigation.navigate("Map",{id : trip.id, markerData : s})} title="go to map"/>
                         <ListDays idStep={s.id} idTrip={trip.id} navigation={navigation}></ListDays>
+                        <File files={s.Files}/>
                     </View>)
                 }
             )

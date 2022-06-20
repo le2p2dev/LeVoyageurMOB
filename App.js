@@ -11,6 +11,7 @@ import Connect from './views/Connect';
 import ListView from './views/ListView';
 import Expenses from './views/Expenses';
 import Journal from './views/Journal';
+import TripFile from './views/TripFile';
 
 export default function App() {
 
@@ -30,6 +31,8 @@ export default function App() {
         <Stack.Screen name="Expenses" component={Expenses} />
         <Stack.Screen name="Settings" component={Settings} />
         <Stack.Screen name="Connect" component={Connect} />
+        <Stack.Screen name="Files" component={TripFile} />
+
       </Stack.Navigator>
     </NavigationContainer>
     <StatusBar style="auto" />

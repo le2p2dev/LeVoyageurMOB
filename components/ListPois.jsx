@@ -16,6 +16,7 @@ const ListPois = ({ idDay, idStep, idTrip, navigation }) => {
             <Text style={styles.text}>
               {poi.title ? poi.title : "No title"}
               <Button onPress={()=>navigation.navigate("Map",{id : idTrip, markerData : poi})} title="go to map"/>
+              <File files={poi.Files}/>
             </Text>
           )
       })}
