@@ -1,12 +1,14 @@
 import React from "react";
 import { Text, View, Image, StyleSheet, TouchableHighlight } from "react-native";
+import ListFile from "./ListFile";
 
-const BottomView = ( POI ) => {
+const BottomView = ({marker}) => {
   
   return (
     <View style={styles.bottomView}>
-      <Text style={styles.text}>{POI.id.title ? POI.id.title : "No title"}</Text>
-      <Text styles={styles.desc}>{POI.id.description ? POI.id.description : "No description"}</Text>
+      <Text style={styles.text}>{marker.title ? marker.title : "No title"}</Text>
+      <Text styles={styles.desc}>{marker.description ? marker.description : "No description"}</Text>
+      <ListFile files={marker.Files}/>
     </View>
   );
 };

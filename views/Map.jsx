@@ -23,7 +23,7 @@ const Map = ({route, navigation}) => {
     })
 
     const handleMarkerClick = (e) => {
-        setPOIInfos({id: e.id, title: e.title, description: e.description})
+        setPOIInfos(e)
         setRegion({
             latitude:e.latitude,
             longitude:e.longitude,
@@ -141,7 +141,7 @@ const Map = ({route, navigation}) => {
 
         {/* BOTTOM VIEW */}
         {
-            POIInfos ? <BottomView id={POIInfos}/> : null
+            POIInfos ? <BottomView marker={POIInfos}/> : null
         }
     </View>
 

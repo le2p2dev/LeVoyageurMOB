@@ -2,7 +2,7 @@ import react from "react";
 import { useQuery } from "react-query";
 import listApi from "../components/listApi"
 import { Text } from "react-native";
-import File from "../components/File";
+import ListFile from "../components/ListFile";
 
 const TripFile = ({route}) => {
 
@@ -12,7 +12,7 @@ const TripFile = ({route}) => {
     return(
         <>
         <Text>Fichiers du voyage : {data?.title}</Text>
-        <File files={data?.Files}/>
+        <ListFile files={data?.Files}/>
 
         </>
     )

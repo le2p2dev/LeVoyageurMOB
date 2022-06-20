@@ -6,8 +6,8 @@ import OpenURLButton from "../components/WebButton";
 
 const Connect = ({route, navigation}) => {
 
-    const [username, setUsername] = useState("pierre67");
-    const [password, setPassword] = useState("pierre2000");
+    const [username, setUsername] = useState("mat");
+    const [password, setPassword] = useState("mat");
     const [error, setError] = useState("");
 
     const handleConnect = () => {

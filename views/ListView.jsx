@@ -6,7 +6,7 @@ import listAPI from "../components/listApi";
 import BottomView from "../components/BottomView"
 import NavBar from "../components/NavBar";
 import { useQuery} from 'react-query';
-
+import ListFile from "../components/ListFile";
 const ListView = ({route, navigation}) => {
     
     const { isLoading:isLoadingTrip, data:trip } = useQuery(route.params.id + 'tripDesc', () => listAPI.GetTrip(route.params.id));
@@ -32,7 +32,7 @@ const ListView = ({route, navigation}) => {
                         <Text style={styles.h3}>{s.description ? s.description : "No description"}</Text>
                         <Button onPress={()=>navigation.navigate("Map",{id : trip.id, markerData : s})} title="go to map"/>
                         <ListDays idStep={s.id} idTrip={trip.id} navigation={navigation}></ListDays>
-                        <File files={s.Files}/>
+                        <ListFile files={s.Files}/>
                     </View>)
                 }
             )
