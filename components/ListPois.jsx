@@ -7,7 +7,7 @@ const ListPois = ({ idDay, idStep, idTrip, navigation }) => {
     listAPI.GetPOIsFromDay({ idStep, idDay, tripId: idTrip })
   );
 
-  if (isLoading) return (<Text>Loading...</Text>)
+  if (isLoading) return (<Text>Loading</Text>)
   else {
     return(<View style={styles.pois}>
         {console.log(data)}

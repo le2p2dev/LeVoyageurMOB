@@ -1,6 +1,6 @@
 import React from "react";
 import OpenURLButton from "./WebButton";
-import { Text, StyleSheet, Linking, Pressable } from "react-native";
+import { Text } from "react-native";
 
 const ListFile = ({files}) =>{
 
@@ -8,20 +8,12 @@ const ListFile = ({files}) =>{
     return(
     files?.map(file => {
         return(
-        <Pressable onPress={() => Linking.openURL(file.imageUrl)}>
-            <Text style={styles.title}>{file.imageUrl.substring(file.imageUrl.lastIndexOf('/')+1).slice(13)}</Text>
-        </Pressable>
+        <OpenURLButton key={file.id} url={file.imageUrl} title={"open file"}/>
         )
     }))
 
-    else return <Text>No file added</Text>
+    else return <Text>no file</Text>
     
 }
-
-const styles = StyleSheet.create({
-    title: {
-        marginLeft: "1%", color: "#293845", textAlignVertical: "center", fontSize: 20, marginBottom: "3%"
-    },
-});
 
 export default ListFile;
