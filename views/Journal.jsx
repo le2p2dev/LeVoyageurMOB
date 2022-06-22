@@ -13,7 +13,6 @@ const Journal = ({route, navigation}) => {
             <Image style={styles.logo} source={require('../assets/icon.png')}/>
         </View>
         <ScrollView>
-            <Text style={styles.text}>Fonctionnalité à venir..</Text>
             <ListJournalEntry id={route.params.id}/>
             <JournalForm id={route.params.id}/>
         </ScrollView>
