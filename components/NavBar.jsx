@@ -19,13 +19,9 @@ const NavBar = ({route, idTrip}) => {
       underlayColor="#CCCCCC">
         <Image style={styles.icon} source={require('../assets/book.png')} />
       </TouchableHighlight>
-      <TouchableHighlight style={styles.highlight} onPress={() => navigation.navigate('Expenses', {id: idTrip})}
-      underlayColor="#CCCCCC">
-        <Image style={styles.iconDes} source={require('../assets/expenses.png')} />
-      </TouchableHighlight>
       <TouchableHighlight style={styles.highlight} onPress={() => navigation.navigate('Files', {id: idTrip})}
       underlayColor="#CCCCCC">
-        <Image style={styles.iconDes} source={require('../assets/expenses.png')} />
+        <Image style={styles.icon} source={require('../assets/files.png')} />
       </TouchableHighlight>
     </View>
   );

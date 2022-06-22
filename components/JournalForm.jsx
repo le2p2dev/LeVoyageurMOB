@@ -46,7 +46,6 @@ const JournalForm = (id) => {
         <>
         <TextInput value={message} onChangeText={setMessage}/>
         <Button title="send" onPress={sendJournalEntry}/>
-        <Button title="my file" onPress={pickImage}/>
         </>
     )
 
