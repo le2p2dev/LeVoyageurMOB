@@ -1,5 +1,7 @@
 import React, {useState, useEffect, useRef} from "react";
 import { Text, View, Image, StyleSheet, ScrollView, Pressable } from "react-native";
+import JournalForm from "../components/JournalForm";
+import ListJournalEntry from "../components/ListJournalEntry";
 import NavBar from "../components/NavBar";
 
 const Journal = ({route, navigation}) => {
@@ -12,6 +14,8 @@ const Journal = ({route, navigation}) => {
         </View>
         <ScrollView>
             <Text style={styles.text}>Fonctionnalité à venir..</Text>
+            <ListJournalEntry id={route.params.id}/>
+            <JournalForm id={route.params.id}/>
         </ScrollView>
     </View>
 

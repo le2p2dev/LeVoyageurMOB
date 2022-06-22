@@ -5,11 +5,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "splash": {
-      "image": "./assets/background-img.jpg",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
+    
     "updates": {
       "fallbackToCacheTimeout": 0
     },
@@ -23,8 +19,15 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyDLdUmBJfDCIJrPlZLO4ZtXHkUoW8OaM8A"
+        }
+      },
+      "package": "com.levoyageur.mobile"
     },
+    
     "web": {
       "favicon": "./assets/favicon.png"
     }

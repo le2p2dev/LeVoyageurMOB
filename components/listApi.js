@@ -129,6 +129,38 @@ return AsyncStorage.getItem("token").then(token =>
 		}, 
 		})).then((res) => res.json());
 	},
+  GetJournal: (id) => {
+
+    return AsyncStorage.getItem("token").then(token => fetch(urlPrefix + `user/${
+      jwtDecode(token).id}/trip/${id.id}/journal`
+    ,{
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      }
+    })).then((res) => res.json());
+  },
+
+  postMessage: (data) => {
+   
+    return AsyncStorage.getItem("token").then(token => fetch(urlPrefix +
+      `user/${
+        jwtDecode(token).id
+      }/trip/${data.id.id}/journal`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+
+      body: JSON.stringify({
+        title: data.title,
+        content: data.content,
+        image: data.image
+      }),
+    })).then((res) => res.json());
+  },
 
   Login: (data) => {
     const urlSuffix = "login";
