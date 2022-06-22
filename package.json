@@ -16,7 +16,9 @@
     "@react-navigation/drawer": "^6.3.1",
     "@react-navigation/native": "^6.0.6",
     "@react-navigation/native-stack": "^6.5.0",
+    "eas": "^0.1.0",
     "expo": "^44.0.0",
+    "expo-image-picker": "~12.0.1",
     "expo-location": "~14.0.1",
     "expo-splash-screen": "~0.14.1",
     "expo-status-bar": "~1.2.0",
@@ -27,6 +29,7 @@
     "react-native": "0.64.3",
     "react-native-async-storage": "^0.0.1",
     "react-native-gesture-handler": "~2.1.0",
+    "react-native-image-picker": "^4.8.4",
     "react-native-mapbox-gl": "^5.2.1-deprecated",
     "react-native-maps": "0.29.4",
     "react-native-reanimated": "~2.3.1",
@@ -44,5 +47,5 @@
   "android": {
     "package": "com.yourcompany.yourappname",
     "versionCode": 1
-}
+  }
 }
