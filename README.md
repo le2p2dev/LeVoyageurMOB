@@ -3,7 +3,7 @@
 
 # Documents
 
-- [Document technique](./doc/docTechnique.md
+- [Document technique](./doc/docTechnique.md)
 
 ### Membres du projet :
 
